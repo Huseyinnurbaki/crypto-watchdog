@@ -14,7 +14,7 @@ Get an api token from https://coinmarketcap.com/ . (I am using Free version)
 #### Run the following command and you are all set.
 
 ```console
-$ docker run -d CMC_PRO_API_KEY=<YOUR_KEY> GOOGLE_CHAT_ROOM_HOOK=<YOUR_HOOK> hhaluk/crypto-watchdog
+$ docker run -d --env CMC_PRO_API_KEY=<YOUR_KEY> --env GOOGLE_CHAT_ROOM_HOOK=<YOUR_HOOK> hhaluk/crypto-watchdog
 ```
 
 
