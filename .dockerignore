@@ -1,0 +1,23 @@
+.git
+.github
+.vscode
+coverage
+*.md
+.prettierrc
+
+# Secrets
+.env
+
+# Node Files
+node_modules
+npm-debug.log
+npm-debug.log.*
+
+# Source files
+
+test
+dockerfile
+dist
+
+README.md
+bg.png
