@@ -21,17 +21,26 @@ Queries first 200 coins/tokens every 45 minutes & returns the ones increased mor
 
 # Quickstart 🚀
 
-#### Run the following command and you are all set.
+> Quickstart without cloning the repoistory.
 
 - Add your environment variables to the following command.
 
+### Docker (Alternative 1)
 ```console
 $ docker run -d --env CMC_PRO_API_KEY=<YOUR_KEY> --env GOOGLE_CHAT_ROOM_HOOK=<YOUR_HOOK> --env PERCENTAGE=12 hhaluk/crypto-watchdog
 ```
 
+All set. :white_check_mark:	
 
-That's it.
+### Kubernetes (Alternative 2)
+- Copy [standard-deployment.yaml](https://github.com/Huseyinnurbaki/crypto-watchdog/blob/master/k8s/standard-deployment.yaml) on your machine & place your environment variables if required.
+(otherwise remove unused name/value pairs)
 
+```console
+$ kubectl apply -f standard-deployment.yaml
+```
+
+All set. :white_check_mark:	
 # Upcoming :construction:	
 
 - Telegram Webhook
@@ -42,7 +51,8 @@ That's it.
 
 # Development :hammer_and_wrench:	
 
-- create an .env file under the root directory & place your Environment Varibles inside the .env. :warning: 
+- Clone the repository
+- Create an .env file under the root directory & place your Environment Varibles inside the .env. :warning: 
 
 ```console
 $ npm i
