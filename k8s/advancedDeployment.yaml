@@ -1,0 +1,93 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: crypto-watchdog-ingress
+  labels:
+    app: crypto-watchdog
+  namespace: watchdog # replace with your ns
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  rules:
+  -  host: kubernetes.docker.internal
+     http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: crypto-watchdog
+            port:
+              number: 3002
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: crypto-watchdog
+  labels:
+    app: crypto-watchdog
+  namespace: watchdog # replace with your ns
+spec:
+  selector:
+    app: crypto-watchdog
+  ports:
+    - protocol: TCP
+      port: 3002
+      targetPort: 3000
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crypto-watchdog
+  namespace: watchdog # replace with your ns
+  labels:
+    app: crypto-watchdog
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: crypto-watchdog
+  template:
+    metadata:
+      labels:
+        app: crypto-watchdog
+    spec:
+      containers:
+      - name: crypto-watchdog
+        image: hhaluk/crypto-watchdog
+        env:
+        - name: CMC_PRO_API_KEY
+          value: "YOUR_API_KEY"
+        - name: GOOGLE_CHAT_ROOM_HOOK
+          value: "YOUR_CHAT_ROOM_URL"
+        - name: PERCENTAGE
+          value: "12"
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "250m"
+          limits:
+            memory: "64Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3000
+        readinessProbe:
+          tcpSocket:
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /crypto-watchdog/health
+            port: 3000
+        imagePullPolicy: Always
+      serviceAccountName: default
