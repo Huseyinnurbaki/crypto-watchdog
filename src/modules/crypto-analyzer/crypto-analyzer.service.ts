@@ -19,7 +19,7 @@ export class CryptoAnalyzerService  {
     const query = `${CMC_API_CRYPTOCURRENCY__LISTINGS_LATEST}?start=1&limit=200`
     const data = await this.requestService.get(query)
     // const data = dummy;
-    const potentials = data?.filter(this.checkRate)
+    const potentials = data?.data?.filter(this.checkRate)
     this.notifyService.publish(potentials)
     return potentials;
   }

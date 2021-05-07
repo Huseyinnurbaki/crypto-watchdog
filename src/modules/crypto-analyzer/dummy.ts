@@ -1,4 +1,4 @@
-export const dummy = [
+export const dummy = {data: [
     {
         id: 1,
         name: "Bitcoin",
@@ -3942,4 +3942,4 @@ export const dummy = [
             },
         },
     },
-]
+]}
