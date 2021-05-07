@@ -16,7 +16,7 @@ Queries first 200 coins/tokens every 45 minutes & returns the ones increased mor
 | GOOGLE_CHAT_ROOM_HOOK  | True  | Notifies google chat room. Curently only supported method to send notification    |
 | PERCENTAGE  | False  | Percentage used to filter results, default is 10%  |
 
-> Get an api token from https://coinmarketcap.com/ . (I am using Free version)
+> Api token (CMC_PRO_API_KEY) can be obtained from https://coinmarketcap.com/api/ . (I am using Free version)
 
 
 # Quickstart 🚀
@@ -42,6 +42,16 @@ That's it.
 
 # Development :hammer_and_wrench:	
 
-- create an .env file under the root directory & place your Environment Varibles inside the .env.
-- npm i
-- npm run start:debug
+- create an .env file under the root directory & place your Environment Varibles inside the .env. :warning: 
+
+```console
+$ npm i
+$ npm run start:debug
+```
+# References
+
+- [Changelog](https://github.com/Huseyinnurbaki/crypto-watchdog/blob/master/changelog.md)
+
+# Licence
+
+- Crypto Watchdog is [MIT Licensed](https://github.com/Huseyinnurbaki/mocktail/blob/master/changelog.md)
