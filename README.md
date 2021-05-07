@@ -29,4 +29,4 @@ That's it.
 
 - create an .env file in the root directory & place your CMC_PRO_API_KEY & GOOGLE_CHAT_ROOM_HOOK inside the .env.
 - npm i
-- npm start:debug
+- npm run start:debug
