@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Coingecko Apis integrated [MR](https://github.com/Huseyinnurbaki/crypto-watchdog/commit/ed8fa10ba8b8653435f2580f4def54ad82e2555e) 
 - Coinmarketcap Api is now optional.
 - Multiple Api integrations are now supported
+- Kubernetes Deplloyment steps added.
 
 ## [0.0.1] - 2021-05-07
 ### Added
