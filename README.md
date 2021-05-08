@@ -2,7 +2,7 @@
 
 ---
 # Crypto Watchdog is a free crypto market observer. 
-Queries first 200 coins/tokens every 45 minutes & returns the ones increased more than %10 in an hour & notifies google chat room.
+Queries first 200 coins/tokens every 45 minutes & returns the ones increased or decreased more than %10 in an hour & notifies google chat room.
 
 - www.coingecko.com (default)
 - www.coinmarketcap.com (optional)
