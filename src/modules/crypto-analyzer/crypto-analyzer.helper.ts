@@ -1,22 +1,21 @@
 import { NotifyModel } from "../notify/dto/notify.model";
-import { config } from 'dotenv';
 import { CryptoProviders } from "src/utils/providers";
-
-config();
+import { ListingRules } from "src/utils/constants";
+import { ninEqualRange } from "src/utils/js-utils";
 
 function checkCMCRate(currency) {
-  const hourly_percentage = Number(process.env.HOURLY_PERCENTAGE) || 10;
-  const daily_percentage = Number(process.env.DAILY_PERCENTAGE) || 99999999;
-  const hourly = currency.quote?.['USD']?.percent_change_1h > hourly_percentage;
-  const daily = currency.quote?.['USD']?.percent_change_24h > daily_percentage;
+  const { percent_change_1h, percent_change_24h } = currency.quote?.['USD'];
+  if(!percent_change_1h || !percent_change_24h) return false
+  const hourly = ninEqualRange(percent_change_1h, ListingRules.hourly_percentage);
+  const daily = ninEqualRange(percent_change_24h, ListingRules.daily_percentage);
   return hourly || daily
 }
 
 function checkGeckoRate(currency) {
-  const hourly_percentage = Number(process.env.HOURLY_PERCENTAGE) || 10;
-  const daily_percentage = Number(process.env.DAILY_PERCENTAGE) || 99999999;
-  const hourly = currency.price_change_percentage_1h_in_currency > hourly_percentage;
-  const daily = currency.price_change_percentage_24h > daily_percentage;
+  const { price_change_percentage_1h_in_currency, price_change_percentage_24h } = currency;
+  if(!price_change_percentage_1h_in_currency || !price_change_percentage_24h) return false
+  const hourly = ninEqualRange(price_change_percentage_1h_in_currency, ListingRules.hourly_percentage);
+  const daily = ninEqualRange(price_change_percentage_24h, ListingRules.daily_percentage);
   return hourly || daily
 }
 

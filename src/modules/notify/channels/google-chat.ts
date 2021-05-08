@@ -1,4 +1,5 @@
-import { MessageColors } from "src/utils/constants";
+import { ListingRules, MessageColors } from "src/utils/constants";
+import { assignColor, ninEqualRange } from "src/utils/js-utils";
 import { NotifyModel } from "../dto/notify.model";
 
 
@@ -26,14 +27,6 @@ export function googleChatRoomMessage(data) {
   return body;
 }
 
-function getDarkColor() {
-  let color = '';
-  for (let i = 0; i < 6; i++) {
-    color += Math.floor(Math.random() * 10);
-  }
-  return color;
-}
-
 function generateRow(row: NotifyModel) {
   if (row.errorMessage){
     return exceptionRow(row)
@@ -46,12 +39,12 @@ function generateRow(row: NotifyModel) {
 
 function successfulRow(row: NotifyModel) {
 
-  const randomColor = getDarkColor();
-
+  const hourlyColor = assignColor(row.priceChangePercentage1h, ListingRules.hourly_percentage)
+  const dailyColor = assignColor(row.priceChangePercentage24h, ListingRules.daily_percentage)
   const price = `price: ${row.price.toFixed(8).toString()}`
-  const percent_change_1h = `1h  %: ${row.priceChangePercentage1h.toFixed(2).toString()}`
-  const percent_change_24h = `24h %: ${row.priceChangePercentage24h.toFixed(2).toString()}`
-  const content = `<b>[${row.symbol}] ${row.name}</b> \n  <font color=\"#${randomColor}\">${price} \n ${percent_change_1h} \n ${percent_change_24h} \n </font>  `
+  const percentChangeHourly = `1h  %: ${row.priceChangePercentage1h.toFixed(2).toString()}`
+  const percentChangeDaily = `24h %: ${row.priceChangePercentage24h.toFixed(2).toString()}`
+  const content = `<b>[${row.symbol}] ${row.name}</b> \n ${price} \n <font color=\"#${hourlyColor}\">${percentChangeHourly} \n </font> <font color=\"#${dailyColor}\">${percentChangeDaily} \n </font>  `
   const topLabel = `Currency | ${row.source}`;
   return generateWidget(topLabel, content)
 
