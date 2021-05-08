@@ -10,4 +10,5 @@ export class NotifyModel {
   priceChangePercentage24h: number
   price: number
   errorMessage: string
+  warnMessage: string
 }

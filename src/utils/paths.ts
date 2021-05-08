@@ -35,4 +35,11 @@ export const COINGECKO_API__LISTINGS_LATEST = `${COINGECKO_API_CRYPTOCURRENCY}/m
 
 
 
+/*
+#############
+Github Api
+#############
+*/
+
+export const GITHUB_RELEASES = "https://api.github.com/repos/Huseyinnurbaki/crypto-watchdog/releases"
 

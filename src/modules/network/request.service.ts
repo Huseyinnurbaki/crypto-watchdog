@@ -20,7 +20,6 @@ export class RequestService {
       const response = await this.httpService.request(config).toPromise();
       return response?.data;
     } catch (error) {
-      console.log(error);
       return error?.response;
     }
   }

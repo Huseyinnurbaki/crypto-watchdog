@@ -1,6 +1,6 @@
 import { NotifyModel } from "../notify/dto/notify.model";
 import { config } from 'dotenv';
-import { providers } from "src/utils/providers";
+import { CryptoProviders } from "src/utils/providers";
 
 config();
 
@@ -25,7 +25,7 @@ export function filterGecko(data) {
     const result = data?.filter(checkGeckoRate).map(item => notifyModelGeckoMapper(item));
     return result;
   } catch (error) {
-    return serviceFailure(providers.CoinGecko)
+    return serviceFailure(CryptoProviders.CoinGecko)
   }
 }
 export function filterCoinMarketCap(data) {
@@ -33,7 +33,7 @@ export function filterCoinMarketCap(data) {
     const result = data?.data?.filter(checkCMCRate).map(item => notifyModelCMCMapper(item));
     return result;
   } catch (error) {
-    return serviceFailure(providers.CoinMarketCap)
+    return serviceFailure(CryptoProviders.CoinMarketCap)
   }
 }
 
@@ -44,7 +44,7 @@ function serviceFailure(provider) {
 }
 
 function notifyModelGeckoMapper(item) {
-  const potential = new NotifyModel(providers.CoinGecko);
+  const potential = new NotifyModel(CryptoProviders.CoinGecko);
   potential.symbol = item.symbol?.toUpperCase();
   potential.name = item.name;
   potential.priceChangePercentage1h = item.price_change_percentage_1h_in_currency;
@@ -55,7 +55,7 @@ function notifyModelGeckoMapper(item) {
 }
 
 function notifyModelCMCMapper(item) {
-  const potential = new NotifyModel(providers.CoinMarketCap);
+  const potential = new NotifyModel(CryptoProviders.CoinMarketCap);
   potential.symbol = item.symbol?.toUpperCase();
   potential.name = item.name;
   potential.priceChangePercentage1h = item.quote?.['USD']?.percent_change_1h;
