@@ -28,8 +28,10 @@ spec:
           value: "YOUR_API_KEY"
         - name: GOOGLE_CHAT_ROOM_HOOK
           value: "YOUR_CHAT_ROOM_URL"
-        - name: PERCENTAGE
+        - name: HOURLY_PERCENTAGE
           value: "12"
+        - name: DAILY_PERCENTAGE
+          value: "200"
         resources:
           requests:
             memory: "32Mi"

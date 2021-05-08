@@ -14,7 +14,8 @@ Queries first 200 coins/tokens every 45 minutes & returns the ones increased mor
 |---|---|---|
 | CMC_PRO_API_KEY  | False  | Enables coinmarketcap queries   |
 | GOOGLE_CHAT_ROOM_HOOK  | True  | Notifies google chat room. Curently only supported method to send notification    |
-| PERCENTAGE  | False  | Percentage used to filter results, default is 10%  |
+| HOURLY_PERCENTAGE  | False  | Used to filter price increase percentage in an hour, default is 10%  |
+| DAILY_PERCENTAGE  | False  | Used to filter price increase percentage in a day, inactive if not defined  |
 
 > Api token (CMC_PRO_API_KEY) can be obtained from https://coinmarketcap.com/api/ . (I am using Free version)
 
@@ -27,7 +28,7 @@ Queries first 200 coins/tokens every 45 minutes & returns the ones increased mor
 
 ### Docker (Alternative 1)
 ```console
-$ docker run -d --env CMC_PRO_API_KEY=<YOUR_KEY> --env GOOGLE_CHAT_ROOM_HOOK=<YOUR_HOOK> --env PERCENTAGE=12 hhaluk/crypto-watchdog
+$ docker run -d --env CMC_PRO_API_KEY=<YOUR_KEY> --env GOOGLE_CHAT_ROOM_HOOK=<YOUR_HOOK> --env HOURLY_PERCENTAGE=12 hhaluk/crypto-watchdog
 ```
 
 All set. :white_check_mark:	

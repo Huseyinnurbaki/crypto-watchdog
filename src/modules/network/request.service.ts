@@ -16,9 +16,13 @@ export class RequestService {
       gzip: true
     };
 
-    const response = await this.httpService.request(config).toPromise();
-
-    return response?.data;
+    try {
+      const response = await this.httpService.request(config).toPromise();
+      return response?.data;
+    } catch (error) {
+      console.log(error);
+      return error?.response;
+    }
   }
 
   async get<T = any>(url, config?): Promise<T> {

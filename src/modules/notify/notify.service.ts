@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { RequestService } from '../network/request.service';
-import { NotifyModel } from './dtos/notify.model';
+import { NotifyModel } from './dto/notify.model';
 import { generateChatRoomCard } from './googleChatHelper';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class NotifyService {
   }
 
   async notifyGoogleChatRoom(data) {
-    if (!process.env.GOOGLE_CHAT_ROOM_HOOK) return
+    if (!process.env.GOOGLE_CHAT_ROOM_HOOK || !data.length) return
     const generatedChatRoomCard = generateChatRoomCard(data);
     await this.requestService.post(process.env.GOOGLE_CHAT_ROOM_HOOK, generatedChatRoomCard);
   }
