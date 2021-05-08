@@ -19,6 +19,7 @@ export class NotifyService implements OnModuleInit {
   async publish(data: [NotifyModel]) {
     const newerVersion = await this.checkLatestGithubVersion()
     newerVersion && data.unshift(newerVersion)
+    if(!data.length) return
     await this.notifyGoogleChatRoom(data)
   }
 
