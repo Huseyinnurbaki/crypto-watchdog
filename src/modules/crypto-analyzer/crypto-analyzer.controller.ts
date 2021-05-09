@@ -4,8 +4,7 @@ import { CryptoAnalyzerService } from './crypto-analyzer.service';
 
 @Controller()
 export class CryptoAnalyzerController {
-
-  constructor(private readonly cas: CryptoAnalyzerService){}
+  constructor(private readonly cas: CryptoAnalyzerService) {}
 
   @Get('cryptocurrencies')
   async getCryptocurrencies() {

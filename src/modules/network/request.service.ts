@@ -2,7 +2,7 @@ import { HttpService, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class RequestService {
-  constructor(private httpService: HttpService) { }
+  constructor(private httpService: HttpService) {}
 
   async request<T = any>(options): Promise<T> {
     const config = {
@@ -13,7 +13,7 @@ export class RequestService {
         ...options?.headers,
       },
       json: true,
-      gzip: true
+      gzip: true,
     };
 
     try {

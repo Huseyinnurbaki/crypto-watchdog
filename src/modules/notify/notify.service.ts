@@ -1,36 +1,40 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { GITHUB_RELEASES } from 'src/utils/paths';
-import { CryptoProviders } from 'src/utils/providers';
 import { RequestService } from '../network/request.service';
 import { NotifyModel } from './dto/notify.model';
 import { MessageFactory } from './message.factory';
-import { ChannelProviders } from "src/utils/providers";
+import { ChannelProviders } from 'src/utils/providers';
 import { compareVersion } from './notify.helper';
-
 
 @Injectable()
 export class NotifyService implements OnModuleInit {
   messageFactory: MessageFactory;
-  constructor(private readonly requestService: RequestService ) { }
+  constructor(private readonly requestService: RequestService) {}
 
-  onModuleInit(){
+  onModuleInit() {
     this.messageFactory = new MessageFactory();
   }
   async publish(data: [NotifyModel]) {
-    const newerVersion = await this.checkLatestGithubVersion()
-    newerVersion && data.unshift(newerVersion)
-    if(!data.length) return
-    await this.notifyGoogleChatRoom(data)
+    const newerVersion = await this.checkLatestGithubVersion();
+    newerVersion && data.unshift(newerVersion);
+    if (!data.length) return;
+    await this.notifyGoogleChatRoom(data);
+    await this.notifySlackChannel(data);
   }
 
   async checkLatestGithubVersion(): Promise<NotifyModel> {
-    const publishedVersions = await this.requestService.get(GITHUB_RELEASES)
-    return compareVersion(publishedVersions, process.env.npm_package_version)
+    const publishedVersions = await this.requestService.get(GITHUB_RELEASES);
+    return compareVersion(publishedVersions, process.env.npm_package_version);
   }
 
   async notifyGoogleChatRoom(data) {
-    if (!process.env.GOOGLE_CHAT_ROOM_HOOK || !data.length) return
-    const message = this.messageFactory.CreateMessage(ChannelProviders.GoogleChat, data)
+    if (!process.env.GOOGLE_CHAT_ROOM_HOOK) return;
+    const message = this.messageFactory.CreateMessage(ChannelProviders.GoogleChat, data);
     await this.requestService.post(process.env.GOOGLE_CHAT_ROOM_HOOK, message);
+  }
+  async notifySlackChannel(data) {
+    if (!process.env.SLACK_CHANNEL_HOOK) return;
+    const message = this.messageFactory.CreateMessage(ChannelProviders.Slack, data);
+    await this.requestService.post(process.env.SLACK_CHANNEL_HOOK, message);
   }
 }
