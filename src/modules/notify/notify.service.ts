@@ -9,7 +9,7 @@ import { isOutdated } from './notify.helper';
 @Injectable()
 export class NotifyService implements OnModuleInit {
   messageFactory: MessageFactory;
-  constructor(private readonly requestService: RequestService) { }
+  constructor(private readonly requestService: RequestService) {}
 
   onModuleInit() {
     this.messageFactory = new MessageFactory();

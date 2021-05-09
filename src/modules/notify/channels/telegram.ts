@@ -10,16 +10,20 @@ https://core.telegram.org/bots#6-botfather
 import { NotifyModel } from '../dto/notify.model';
 
 export function telegramChannelMessage(data: [NotifyModel]) {
-  let message = "";
-  let head = "*Crypto Watchdog*\n";
-  let info = "_List of CryptoCurrencies_\n\n";
-  let template = "``` |   Symbol   |    Price    |   1h %   |   24h %  |      Source      |\n |------------|-------------|----------|----------|------------------|\n"
+  let message = '';
+  const head = '*Crypto Watchdog*\n';
+  const info = '_List of CryptoCurrencies_\n\n';
+  const template =
+    '``` |   Symbol   |    Price    |   1h %   |   24h %  |      Source      |\n |------------|-------------|----------|----------|------------------|\n';
 
-  message = message.concat(head).concat(info).concat(template);
+  message = message
+    .concat(head)
+    .concat(info)
+    .concat(template);
   data.map(cur => {
     message += generateSection(cur);
   });
-  const body = { text: message.concat("```") };
+  const body = { text: message.concat('```') };
   return body;
 }
 function generateSection(Section: NotifyModel) {
@@ -42,9 +46,15 @@ function errorSection(row: NotifyModel) {
 
 function successSection(section: NotifyModel) {
   const lines = {
-    price: `${parseFloat(section.price).toFixed(6).concat(new Array(14 - section.price.length).join(' '))}`,
-    percentChangeHourly: `${section.priceChangePercentage1h.concat(new Array(9 - section.priceChangePercentage1h.length).join(' '))}`,
-    percentChangeDaily: `${section.priceChangePercentage24h.concat(new Array(9 - section.priceChangePercentage24h.length).join(' '))}`,
+    price: `${parseFloat(section.price)
+      .toFixed(6)
+      .concat(new Array(14 - section.price.length).join(' '))}`,
+    percentChangeHourly: `${section.priceChangePercentage1h.concat(
+      new Array(9 - section.priceChangePercentage1h.length).join(' '),
+    )}`,
+    percentChangeDaily: `${section.priceChangePercentage24h.concat(
+      new Array(9 - section.priceChangePercentage24h.length).join(' '),
+    )}`,
     title: `${section.symbol.concat(new Array(11 - section.symbol.length).join(' '))}`,
     source: `${section.source.concat(new Array(17 - section.source.length).join(' '))}`,
   };
@@ -67,6 +77,17 @@ function plainText(message: string) {
 }
 
 function singleRegularSection(lines) {
-  const block = ' | ' + lines.title + ' | ' + lines.price + ' | ' + lines.percentChangeHourly + ' | ' + lines.percentChangeDaily + ' | ' + lines.source + ' |\n';
+  const block =
+    ' | ' +
+    lines.title +
+    ' | ' +
+    lines.price +
+    ' | ' +
+    lines.percentChangeHourly +
+    ' | ' +
+    lines.percentChangeDaily +
+    ' | ' +
+    lines.source +
+    ' |\n';
   return block;
 }
