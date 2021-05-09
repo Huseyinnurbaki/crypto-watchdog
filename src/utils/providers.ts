@@ -7,5 +7,5 @@ export const CryptoProviders = {
 export const ChannelProviders = {
   GoogleChat: 'GoogleChat',
   Slack: 'Slack',
-  Custom: 'Custom'
+  Custom: 'Custom',
 };

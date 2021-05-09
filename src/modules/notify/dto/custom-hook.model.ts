@@ -1,4 +1,4 @@
-import { NotifyModel } from "./notify.model";
+import { NotifyModel } from './notify.model';
 
 export class CustomHook {
   constructor(data: NotifyModel) {

@@ -20,7 +20,7 @@ export class NotifyService implements OnModuleInit {
     if (!data.length) return;
     await this.notifyGoogleChatRoom(data);
     await this.notifySlackChannel(data);
-    await this.notifyCustomChannel(data)
+    await this.notifyCustomChannel(data);
   }
 
   async checkLatestGithubVersion(): Promise<NotifyModel> {
