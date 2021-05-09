@@ -8,4 +8,5 @@ export const ChannelProviders = {
   GoogleChat: 'GoogleChat',
   Slack: 'Slack',
   Custom: 'Custom',
+  Telegram: 'Telegram',
 };
