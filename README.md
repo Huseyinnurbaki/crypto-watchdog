@@ -2,7 +2,7 @@
 
 ---
 # Crypto Watchdog is a free crypto market observer. 
-Queries first 200 coins/tokens every 45 minutes & returns the ones increased or decreased more than %10 in an hour & notifies google chat room & Slack Channel.
+Queries first 200 coins/tokens every 45 minutes & returns the ones increased or decreased more than %10 in an hour & notifies google chat room & Slack Channel or your services.
 
 - www.coingecko.com (default)
 - www.coinmarketcap.com (optional)
@@ -15,12 +15,13 @@ Queries first 200 coins/tokens every 45 minutes & returns the ones increased or 
 | CMC_PRO_API_KEY  | False  | Enables coinmarketcap queries   |
 | GOOGLE_CHAT_ROOM_HOOK  | True  | Notifies Google chat room. Provide at least one HOOK to get notified.    |
 | SLACK_CHANNEL_HOOK  | False  |  Notifies Slack channel. Provide at least one HOOK to get notified.  |
+| CUSTOM_CHANNEL_HOOK  | False  |  Feeds provided rest endpoint. Provide at least one HOOK to get notified.  |
 | HOURLY_PERCENTAGE  | False  | Used to filter price increase percentage in an hour, default is 10%  |
 | DAILY_PERCENTAGE  | False  | Used to filter price increase percentage in a day, inactive if not defined  |
 
 > Api token (CMC_PRO_API_KEY) can be obtained from https://coinmarketcap.com/api/ . (I am using Free version)
 > Features activated by passed environment varibles. You can have all features together or individually.
-
+> Checkout [Integration]() document for custom hook integration.
 # Quickstart 🚀
 
 > Quickstart without cloning the repoistory.
@@ -47,7 +48,6 @@ All set. :white_check_mark:
 
 - Telegram Webhook
 - Discord Webhook
-- Custom Webhook
 - New Coin Listings
 
 # Development :hammer_and_wrench:	
