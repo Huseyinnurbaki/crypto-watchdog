@@ -1,4 +1,5 @@
 import { ChannelProviders } from 'src/utils/providers';
+import { customHookMessage } from './channels/custom-hook';
 import { googleChatRoomMessage } from './channels/google-chat';
 import { slackChannelMessage } from './channels/slack';
 import { NotifyModel } from './dto/notify.model';
@@ -9,6 +10,8 @@ export class MessageFactory {
       return googleChatRoomMessage(data);
     } else if (channelProvider === ChannelProviders.Slack) {
       return slackChannelMessage(data);
+    } else if (channelProvider === ChannelProviders.Custom) {
+      return customHookMessage(data);
     }
     return null;
   }

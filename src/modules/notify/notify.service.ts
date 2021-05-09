@@ -20,6 +20,7 @@ export class NotifyService implements OnModuleInit {
     if (!data.length) return;
     await this.notifyGoogleChatRoom(data);
     await this.notifySlackChannel(data);
+    await this.notifyCustomChannel(data)
   }
 
   async checkLatestGithubVersion(): Promise<NotifyModel> {
@@ -36,5 +37,10 @@ export class NotifyService implements OnModuleInit {
     if (!process.env.SLACK_CHANNEL_HOOK) return;
     const message = this.messageFactory.CreateMessage(ChannelProviders.Slack, data);
     await this.requestService.post(process.env.SLACK_CHANNEL_HOOK, message);
+  }
+  async notifyCustomChannel(data) {
+    if (!process.env.CUSTOM_CHANNEL_HOOK) return;
+    const message = this.messageFactory.CreateMessage(ChannelProviders.Custom, data);
+    await this.requestService.post(process.env.CUSTOM_CHANNEL_HOOK, message);
   }
 }
