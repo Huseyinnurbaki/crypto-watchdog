@@ -4,7 +4,7 @@ import { RequestService } from '../network/request.service';
 import { NotifyModel } from './dto/notify.model';
 import { MessageFactory } from './message.factory';
 import { ChannelProviders } from 'src/utils/providers';
-import { compareVersion } from './notify.helper';
+import { isOutdated } from './notify.helper';
 
 @Injectable()
 export class NotifyService implements OnModuleInit {
@@ -24,7 +24,7 @@ export class NotifyService implements OnModuleInit {
 
   async checkLatestGithubVersion(): Promise<NotifyModel> {
     const publishedVersions = await this.requestService.get(GITHUB_RELEASES);
-    return compareVersion(publishedVersions, process.env.npm_package_version);
+    return isOutdated(publishedVersions);
   }
 
   async notifyGoogleChatRoom(data) {
