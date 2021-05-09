@@ -22,7 +22,7 @@ Queries first 200 coins/tokens every 45 minutes & returns the ones increased or 
 > Api token (CMC_PRO_API_KEY) can be obtained from https://coinmarketcap.com/api/ . (I am using Free version)
 - Provide at least one HOOK to get notified.
 - Features activated by passed environment varibles. You can have all features together or individually.
-- Checkout [Integration Document](https://github.com/Huseyinnurbaki/crypto-watchdog/blob/master/Integration.md) for custom hook integration.
+- Checkout [Integration Document](https://github.com/Huseyinnurbaki/crypto-watchdog/wiki/Custom-Hook-Integration) for custom hook integration.
 # Quickstart 🚀
 
 > Quickstart without cloning the repoistory.
