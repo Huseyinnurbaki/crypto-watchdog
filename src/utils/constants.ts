@@ -2,7 +2,7 @@ import { config } from 'dotenv';
 
 config();
 
-export const CRYPTO_WATCHDOG_VERSION = '0.1.1';
+export const CRYPTO_WATCHDOG_VERSION = '0.2.0';
 
 const Colors = {
   LimeGreen: '32CD32',
