@@ -25,9 +25,11 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          npm run prebuild
-          npm run lintcheck
-          npm run build
+      - name: Install Dependencies
+        run: npm ci
+      - name: Prebuild
+        run: npm run prebuild
+      - name: Lint Check
+        run: npm run lintcheck
+      - name: Build
+        run: npm run build
