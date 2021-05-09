@@ -9,7 +9,7 @@ import { isOutdated } from './notify.helper';
 @Injectable()
 export class NotifyService implements OnModuleInit {
   messageFactory: MessageFactory;
-  constructor(private readonly requestService: RequestService) {}
+  constructor(private readonly requestService: RequestService) { }
 
   onModuleInit() {
     this.messageFactory = new MessageFactory();
@@ -21,6 +21,7 @@ export class NotifyService implements OnModuleInit {
     await this.notifyGoogleChatRoom(data);
     await this.notifySlackChannel(data);
     await this.notifyCustomChannel(data);
+    await this.notifyTelegramChannel(data);
   }
 
   async checkLatestGithubVersion(): Promise<NotifyModel> {
@@ -42,5 +43,10 @@ export class NotifyService implements OnModuleInit {
     if (!process.env.CUSTOM_CHANNEL_HOOK) return;
     const message = this.messageFactory.CreateMessage(ChannelProviders.Custom, data);
     await this.requestService.post(process.env.CUSTOM_CHANNEL_HOOK, message);
+  }
+  async notifyTelegramChannel(data) {
+    if (!process.env.TELEGRAM_CHANNEL_HOOK) return;
+    const message = this.messageFactory.CreateMessage(ChannelProviders.Telegram, data);
+    await this.requestService.post(process.env.TELEGRAM_CHANNEL_HOOK, message);
   }
 }
