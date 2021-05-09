@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
+import { getCoinGeckoPageLimit } from 'src/utils/constants';
 import { CMC_API_CRYPTOCURRENCY__LISTINGS_LATEST, COINGECKO_API__LISTINGS_LATEST } from 'src/utils/paths';
 import { RequestService } from '../network/request.service';
 import { NotifyService } from '../notify/notify.service';
@@ -20,8 +21,13 @@ export class CryptoAnalyzerService {
   }
 
   async getCoinGeckoCryptos() {
-    const query = `${COINGECKO_API__LISTINGS_LATEST}?vs_currency=usd&order=market_cap_desc&price_change_percentage=1h&per_page=250`;
-    const data = await this.requestService.get(query);
+    const data = [];
+    const pages = getCoinGeckoPageLimit()
+    for (let i = 1; i < pages + 1; i++) {
+      const query = `${COINGECKO_API__LISTINGS_LATEST}?vs_currency=usd&order=market_cap_desc&price_change_percentage=1h&page=${i}&per_page=250`;
+      const response = await this.requestService.get(query);
+      if (response.length) data.push(...response);
+    }
 
     return filterGecko(data);
   }

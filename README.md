@@ -20,6 +20,7 @@ Queries first 200 coins/tokens every 45 minutes & returns the ones increased or 
 | CUSTOM_CHANNEL_HOOK  | False  |  Feeds provided rest endpoint. Enables Custom notifications.  |
 | HOURLY_PERCENTAGE  | False  | Used to filter price increase percentage in an hour, default is 10%  |
 | DAILY_PERCENTAGE  | False  | Used to filter price increase percentage in a day, inactive if not defined  |
+| COIN_GECKO_PAGE_LIMIT  | False  | Used to change number of pages to query, default is 2. min: 1 max:28  |
 
 > Api token (CMC_PRO_API_KEY) can be obtained from https://coinmarketcap.com/api/ . (I am using Free version)
 - Provide at least one HOOK to get notified.
