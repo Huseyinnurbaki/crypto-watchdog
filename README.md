@@ -1,6 +1,7 @@
 ![bg](./bg.png "bg")
 
 ---
+[![CI](https://github.com/Huseyinnurbaki/crypto-watchdog/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/Huseyinnurbaki/crypto-watchdog/actions/workflows/main.yml)
 # Crypto Watchdog is a free crypto market observer. 
 Queries first 200 coins/tokens every 45 minutes & returns the ones increased or decreased more than %10 in an hour & notifies google chat room & Slack Channel or your services.
 
