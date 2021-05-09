@@ -22,7 +22,7 @@ export class CryptoAnalyzerService {
 
   async getCoinGeckoCryptos() {
     const data = [];
-    const pages = getCoinGeckoPageLimit()
+    const pages = getCoinGeckoPageLimit();
     for (let i = 1; i < pages + 1; i++) {
       const query = `${COINGECKO_API__LISTINGS_LATEST}?vs_currency=usd&order=market_cap_desc&price_change_percentage=1h&page=${i}&per_page=250`;
       const response = await this.requestService.get(query);

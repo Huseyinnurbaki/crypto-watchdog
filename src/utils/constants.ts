@@ -29,6 +29,6 @@ const DEFAULTPAGELIMIT = 2;
 const PAGE_LIMIT = Number(process.env.COIN_GECKO_PAGE_LIMIT) || DEFAULTPAGELIMIT;
 
 export function getCoinGeckoPageLimit() {
-  if (PAGE_LIMIT > 0 && PAGE_LIMIT <= 28) return PAGE_LIMIT
+  if (PAGE_LIMIT > 0 && PAGE_LIMIT <= 28) return PAGE_LIMIT;
   return DEFAULTPAGELIMIT;
 }
