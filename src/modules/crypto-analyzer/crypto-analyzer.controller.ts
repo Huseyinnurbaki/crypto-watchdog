@@ -11,4 +11,10 @@ export class CryptoAnalyzerController {
     const res = await this.cas.getCryptos();
     return res;
   }
+
+  @Get('newbies')
+  async getNewbies() {
+    const res = await this.cas.getNewbies();
+    return res;
+  }
 }

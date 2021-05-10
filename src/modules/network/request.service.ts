@@ -44,4 +44,28 @@ export class RequestService {
 
     return await this.request<T>(options);
   }
+
+  async graphql<T = any>(url, data, options?): Promise<T> {
+    const config = {
+      url: url,
+      query: { query: data },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-API-KEY': process.env.BITQUERY_API_KEY || '',
+        ...options,
+      },
+    };
+
+    return await this.graphqlRequest<T>(config);
+  }
+
+  async graphqlRequest<T = any>(options): Promise<T> {
+    const config = {
+      headers: {
+        ...options.headers,
+      },
+    };
+    const response = await this.httpService.post(options.url, options.query, config).toPromise();
+    return response?.data?.data || response?.data;
+  }
 }
