@@ -11,4 +11,6 @@ export class NotifyModel {
   price: string;
   errorMessage: string;
   warnMessage: string;
+  bscScanUrl: string;
+  pooCoinUrl: string;
 }

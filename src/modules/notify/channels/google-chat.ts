@@ -7,6 +7,7 @@ https://developers.google.com/hangouts/chat/how-tos/webhooks
 
 import { ListingRules, MessageColors } from 'src/utils/constants';
 import { assignColor } from 'src/utils/js-utils';
+import { CryptoProviders } from 'src/utils/providers';
 import { NotifyModel } from '../dto/notify.model';
 
 export function googleChatRoomMessage(data: [NotifyModel]) {
@@ -44,15 +45,31 @@ function generateRow(row: NotifyModel) {
 }
 
 function successfulRow(row: NotifyModel) {
-  const hourlyColor = assignColor(row.priceChangePercentage1h, ListingRules.hourly_percentage);
-  const dailyColor = assignColor(row.priceChangePercentage24h, ListingRules.daily_percentage);
-  const price = `price: ${row.price}`;
-  const percentChangeHourly = `1h  %: ${row.priceChangePercentage1h}`;
-  const percentChangeDaily = `24h %: ${row.priceChangePercentage24h}`;
-  const content = `<b>[${row.symbol}] ${row.name}</b> \n ${price} \n <font color=\"#${hourlyColor}\">${percentChangeHourly} \n </font> <font color=\"#${dailyColor}\">${percentChangeDaily} \n </font>  `;
+  const rawData = {
+    hourlyColor: assignColor(row.priceChangePercentage1h, ListingRules.hourly_percentage),
+    dailyColor: assignColor(row.priceChangePercentage24h, ListingRules.daily_percentage),
+    price: `price: ${row.price}`,
+    percentChangeHourly: `1h  %: ${row.priceChangePercentage1h}`,
+    percentChangeDaily: `24h %: ${row.priceChangePercentage24h}`,
+    bscScanUrl: `Bsc ScanUrl  : \n ${row.bscScanUrl}`,
+    pooCoinUrl: `Poo CoinUrl : \n ${row.pooCoinUrl}`,
+  };
   const topLabel = `Currency | ${row.source}`;
-  return generateWidget(topLabel, content);
+
+  return generateWidget(topLabel, contentGenerator(rawData, row));
 }
+
+function contentGenerator(rawData, row) {
+  if (row.source === CryptoProviders.BitQuery) {
+    const content = `<b>[${row.symbol}] ${row.name}</b> \n ${rawData.bscScanUrl} \n ${rawData.pooCoinUrl} \n</font>  `;
+
+    return content;
+  }
+  const content = `<b>[${rawData.symbol}] ${rawData.name}</b> \n ${rawData.price} \n <font color=\"#${rawData.hourlyColor}\">${rawData.percentChangeHourly} \n </font> <font color=\"#${rawData.dailyColor}\">${rawData.percentChangeDaily} \n </font>  `;
+
+  return content;
+}
+
 function errorRow(row: NotifyModel) {
   const alertColor = MessageColors.error;
   const content = `<i><font color=\"#${alertColor}\">${row.errorMessage} \n </font> </i> `;

@@ -4,6 +4,9 @@ export const CMC_API_BASEURL = `https://pro-api.coinmarketcap.com/v1`;
 // https://www.coingecko.com/tr/api#explore-api
 export const COINGECKO_API_BASEURL = `https://api.coingecko.com/api/v3`;
 
+//  https://graphql.bitquery.io/ide#
+export const BITQUERY_API_BASEURL = `https://graphql.bitquery.io`;
+
 /* 
 #############
 Api Prefixes

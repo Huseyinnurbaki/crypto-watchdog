@@ -1,10 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
+import {
+  BITQUERY_API_BASEURL,
+  CMC_API_CRYPTOCURRENCY__LISTINGS_LATEST,
+  COINGECKO_API__LISTINGS_LATEST,
+} from 'src/utils/paths';
 import { getCoinGeckoPageLimit } from 'src/utils/constants';
-import { CMC_API_CRYPTOCURRENCY__LISTINGS_LATEST, COINGECKO_API__LISTINGS_LATEST } from 'src/utils/paths';
+import queries from 'src/utils/queries';
 import { RequestService } from '../network/request.service';
 import { NotifyService } from '../notify/notify.service';
-import { filterCoinMarketCap, filterGecko } from './crypto-analyzer.helper';
+import { filterBitQuery, filterCoinMarketCap, filterGecko } from './crypto-analyzer.helper';
 
 @Injectable()
 export class CryptoAnalyzerService {
@@ -18,6 +23,16 @@ export class CryptoAnalyzerService {
     this.notifyService.publish(mergedCoinList);
 
     return mergedCoinList;
+  }
+
+  @Cron('*/60 * * * *')
+  async getNewbies() {
+    if (!process.env.BITQUERY_API_KEY)
+      return 'This feature is inactive. Checkout github.com/Huseyinnurbaki/crypto-watchdog for troubleshooting.';
+    const bitqueryPotentials = await this.getBitqueryCryptos();
+    this.notifyService.publish(bitqueryPotentials);
+
+    return bitqueryPotentials;
   }
 
   async getCoinGeckoCryptos() {
@@ -38,5 +53,12 @@ export class CryptoAnalyzerService {
     const data = await this.requestService.get(query);
 
     return filterCoinMarketCap(data);
+  }
+
+  async getBitqueryCryptos() {
+    if (!process.env.BITQUERY_API_KEY) return [];
+    const data = await this.requestService.graphql(BITQUERY_API_BASEURL, queries.ethereumQuery);
+
+    return filterBitQuery(data);
   }
 }

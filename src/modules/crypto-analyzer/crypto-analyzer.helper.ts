@@ -36,6 +36,15 @@ export function filterCoinMarketCap(data) {
   }
 }
 
+export function filterBitQuery(data) {
+  try {
+    const result = data?.ethereum?.dexTrades?.map(item => notifyModelBitqueryMapper(item));
+    return result;
+  } catch (error) {
+    return serviceFailure(CryptoProviders.BitQuery);
+  }
+}
+
 function serviceFailure(provider) {
   const failure = new NotifyModel(provider);
   failure.errorMessage = 'Check Your Provider Config';
@@ -60,6 +69,16 @@ function notifyModelCMCMapper(item) {
   potential.priceChangePercentage1h = item.quote?.['USD']?.percent_change_1h?.toFixed(2)?.toString();
   potential.priceChangePercentage24h = item.quote?.['USD']?.percent_change_24h?.toFixed(2)?.toString();
   potential.price = item.quote?.['USD']?.price?.toFixed(8)?.toString();
+
+  return potential;
+}
+
+function notifyModelBitqueryMapper(item) {
+  const potential = new NotifyModel(CryptoProviders.BitQuery);
+  potential.symbol = item?.baseCurrency?.symbol?.toUpperCase();
+  potential.name = item?.baseCurrency?.name;
+  potential.bscScanUrl = item?.baseCurrency?.address;
+  potential.pooCoinUrl = `https://poocoin.app/tokens/${item?.baseCurrency?.address}`;
 
   return potential;
 }
