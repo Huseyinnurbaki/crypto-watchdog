@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { GITHUB_RELEASES } from 'src/utils/paths';
 import { RequestService } from '../network/request.service';
 import { NotifyModel } from './dto/notify.model';
@@ -10,6 +10,7 @@ import { isOutdated } from './notify.helper';
 export class NotifyService implements OnModuleInit {
   messageFactory: MessageFactory;
   constructor(private readonly requestService: RequestService) {}
+  private readonly logger = new Logger(NotifyService.name);
 
   onModuleInit() {
     this.messageFactory = new MessageFactory();
@@ -17,6 +18,7 @@ export class NotifyService implements OnModuleInit {
   async publish(data: [NotifyModel]) {
     const newerVersion = await this.checkLatestGithubVersion();
     newerVersion && data.unshift(newerVersion);
+    this.logger.warn("# of data will be published -->", data.length.toString())
     if (!data.length) return;
     await this.notifyGoogleChatRoom(data);
     await this.notifySlackChannel(data);
