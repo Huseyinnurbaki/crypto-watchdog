@@ -18,7 +18,7 @@ export class NotifyService implements OnModuleInit {
   async publish(data: [NotifyModel]) {
     const newerVersion = await this.checkLatestGithubVersion();
     newerVersion && data.unshift(newerVersion);
-    this.logger.warn("# of data will be published -->", data.length.toString())
+    this.logger.warn('number of data will be published -->', data.length.toString());
     if (!data.length) return;
     await this.notifyGoogleChatRoom(data);
     await this.notifySlackChannel(data);
