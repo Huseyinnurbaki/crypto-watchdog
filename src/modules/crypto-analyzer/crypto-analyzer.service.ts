@@ -5,7 +5,7 @@ import {
   CMC_API_CRYPTOCURRENCY__LISTINGS_LATEST,
   COINGECKO_API__LISTINGS_LATEST,
 } from 'src/utils/paths';
-import { getCoinGeckoPageLimit } from 'src/utils/constants';
+import { AppConfigs, getCoinGeckoPageLimit } from 'src/utils/constants';
 import queries from 'src/utils/queries';
 import { RequestService } from '../network/request.service';
 import { NotifyService } from '../notify/notify.service';
@@ -27,7 +27,7 @@ export class CryptoAnalyzerService {
 
   @Cron('*/60 * * * *')
   async getNewbies() {
-    if (!process.env.BITQUERY_API_KEY)
+    if (!AppConfigs.BITQUERY_API_KEY)
       return 'This feature is inactive. Checkout github.com/Huseyinnurbaki/crypto-watchdog for troubleshooting.';
     const bitqueryPotentials = await this.getBitqueryCryptos();
     this.notifyService.publish(bitqueryPotentials);
@@ -48,7 +48,7 @@ export class CryptoAnalyzerService {
   }
 
   async getCMCCryptos() {
-    if (!process.env.CMC_PRO_API_KEY) return [];
+    if (!AppConfigs.CMC_PRO_API_KEY) return [];
     const query = `${CMC_API_CRYPTOCURRENCY__LISTINGS_LATEST}?start=1&limit=200`;
     const data = await this.requestService.get(query);
 
@@ -56,7 +56,6 @@ export class CryptoAnalyzerService {
   }
 
   async getBitqueryCryptos() {
-    if (!process.env.BITQUERY_API_KEY) return [];
     const data = await this.requestService.graphql(BITQUERY_API_BASEURL, queries.ethereumQuery);
 
     return filterBitQuery(data);

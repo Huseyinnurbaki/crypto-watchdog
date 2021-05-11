@@ -2,7 +2,11 @@ import { HttpService, Module, OnModuleInit, Logger, HttpModule } from '@nestjs/c
 import { RequestService } from './request.service';
 
 @Module({
-  imports: [HttpModule],
+  imports: [
+    HttpModule.register({
+      timeout: 90000,
+    }),
+  ],
   providers: [RequestService],
   exports: [HttpModule, RequestService],
 })

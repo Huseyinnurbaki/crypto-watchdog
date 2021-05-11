@@ -5,6 +5,7 @@ import { NotifyModel } from './dto/notify.model';
 import { MessageFactory } from './message.factory';
 import { ChannelProviders } from 'src/utils/providers';
 import { isOutdated } from './notify.helper';
+import { AppConfigs } from 'src/utils/constants';
 
 @Injectable()
 export class NotifyService implements OnModuleInit {
@@ -32,23 +33,23 @@ export class NotifyService implements OnModuleInit {
   }
 
   async notifyGoogleChatRoom(data) {
-    if (!process.env.GOOGLE_CHAT_ROOM_HOOK) return;
+    if (!AppConfigs.GOOGLE_CHAT_ROOM_HOOK) return;
     const message = this.messageFactory.CreateMessage(ChannelProviders.GoogleChat, data);
-    await this.requestService.post(process.env.GOOGLE_CHAT_ROOM_HOOK, message);
+    await this.requestService.post(AppConfigs.GOOGLE_CHAT_ROOM_HOOK, message);
   }
   async notifySlackChannel(data) {
-    if (!process.env.SLACK_CHANNEL_HOOK) return;
+    if (!AppConfigs.SLACK_CHANNEL_HOOK) return;
     const message = this.messageFactory.CreateMessage(ChannelProviders.Slack, data);
-    await this.requestService.post(process.env.SLACK_CHANNEL_HOOK, message);
+    await this.requestService.post(AppConfigs.SLACK_CHANNEL_HOOK, message);
   }
   async notifyCustomChannel(data) {
-    if (!process.env.CUSTOM_CHANNEL_HOOK) return;
+    if (!AppConfigs.CUSTOM_CHANNEL_HOOK) return;
     const message = this.messageFactory.CreateMessage(ChannelProviders.Custom, data);
-    await this.requestService.post(process.env.CUSTOM_CHANNEL_HOOK, message);
+    await this.requestService.post(AppConfigs.CUSTOM_CHANNEL_HOOK, message);
   }
   async notifyTelegramChannel(data) {
-    if (!process.env.TELEGRAM_CHANNEL_HOOK) return;
+    if (!AppConfigs.TELEGRAM_CHANNEL_HOOK) return;
     const message = this.messageFactory.CreateMessage(ChannelProviders.Telegram, data);
-    await this.requestService.post(process.env.TELEGRAM_CHANNEL_HOOK, message);
+    await this.requestService.post(AppConfigs.TELEGRAM_CHANNEL_HOOK, message);
   }
 }

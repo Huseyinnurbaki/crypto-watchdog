@@ -1,4 +1,5 @@
 import { HttpService, Injectable } from '@nestjs/common';
+import { AppConfigs } from 'src/utils/constants';
 
 @Injectable()
 export class RequestService {
@@ -9,7 +10,7 @@ export class RequestService {
       ...options,
       headers: {
         'Content-Type': 'application/json',
-        'X-CMC_PRO_API_KEY': process.env.CMC_PRO_API_KEY || '',
+        'X-CMC_PRO_API_KEY': AppConfigs.CMC_PRO_API_KEY || '',
         ...options?.headers,
       },
       json: true,
@@ -51,7 +52,7 @@ export class RequestService {
       query: { query: data },
       headers: {
         'Content-Type': 'application/json',
-        'X-API-KEY': process.env.BITQUERY_API_KEY || '',
+        'X-API-KEY': AppConfigs.BITQUERY_API_KEY || '',
         ...options,
       },
     };
