@@ -41,7 +41,7 @@ export const MessageColors = {
 };
 
 export const ListingRules = {
-  hourly_percentage: AppConfigs.HOURLY_PERCENTAGE || 3,
+  hourly_percentage: AppConfigs.HOURLY_PERCENTAGE || 10,
   daily_percentage: AppConfigs.DAILY_PERCENTAGE || 999999,
 };
 
