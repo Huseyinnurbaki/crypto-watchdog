@@ -18,30 +18,26 @@ export class NotifyService implements OnModuleInit {
     this.messageFactory = new MessageFactory();
   }
 
-// TODO: Remove duplicates 
+  // TODO: Remove duplicates
 
   async publish(data: [NotifyModel]) {
     const newerVersion = await this.checkLatestGithubVersion();
     newerVersion && data.unshift(newerVersion);
     this.logger.warn('number of data will be published -->', data.length.toString());
     if (!data.length) return;
-    const numberOfPages = Math.floor((data.length / 8)) + 1
+    const numberOfPages = Math.floor(data.length / 8) + 1;
     for (let i = 1; i < numberOfPages; i++) {
-      const page = paginate(data, 8, i)
-      await this.invokeChannels(page)
+      const page = paginate(data, 8, i);
+      await this.invokeChannels(page);
     }
-
-    
   }
 
-  async invokeChannels(page: [NotifyModel]){
+  async invokeChannels(page: [NotifyModel]) {
     await this.notifyGoogleChatRoom(page);
     await this.notifySlackChannel(page);
     // await this.notifyCustomChannel(page); // not adapted yet
     // await this.notifyTelegramChannel(page);  // not adapted yet
   }
-
-  
 
   async checkLatestGithubVersion(): Promise<NotifyModel> {
     const publishedVersions = await this.requestService.get(GITHUB_RELEASES);

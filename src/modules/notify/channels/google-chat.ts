@@ -100,4 +100,3 @@ function generateWidget(topLabel, content) {
     },
   };
 }
-
