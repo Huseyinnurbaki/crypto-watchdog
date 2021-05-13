@@ -3,7 +3,7 @@
 ---
 [![CI](https://github.com/Huseyinnurbaki/crypto-watchdog/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/Huseyinnurbaki/crypto-watchdog/actions/workflows/main.yml)
 # Crypto Watchdog is a free crypto market observer. 
-Finds new listed coins every hour and Queries first 200 coins/tokens every 45 minutes & returns the ones increased or decreased more than %10 in an hour & notifies google chat room & Slack Channel & Telegram or your services. 
+Finds new listed coins every hour and Queries coins/tokens every 45 minutes & returns the ones increased or decreased more than %10 in an hour & notifies google chat room & Slack Channel & Telegram or your services. 
 
 - www.coingecko.com (default)
 - www.coinmarketcap.com (optional)
@@ -12,17 +12,20 @@ Finds new listed coins every hour and Queries first 200 coins/tokens every 45 mi
 
 # Environment Variables :globe_with_meridians:	
 
-|  Name | Mandatory  | Description |
-|---|---|---|
-| CMC_PRO_API_KEY  | False  | Enables coinmarketcap queries.   |
-| BITQUERY_API_KEY  | False  | Enables bitquery queries. Returns new listed coins.   |
-| GOOGLE_CHAT_ROOM_HOOK  | True  | Notifies Google chat room. Enables Google chat notifications.    |
-| SLACK_CHANNEL_HOOK  | False  |  Notifies Slack channel. Enables Slack Channel notifications.  |
-| TELEGRAM_CHANNEL_HOOK  | False  |  Notifies Telegram channel. Enables Telegram Channel notifications.  |
-| CUSTOM_CHANNEL_HOOK  | False  |  Feeds provided rest endpoint. Enables Custom notifications.  |
-| HOURLY_PERCENTAGE  | False  | Used to filter price increase percentage in an hour, default is 10%.  |
-| DAILY_PERCENTAGE  | False  | Used to filter price increase percentage in a day, inactive if not defined.  |
-| COIN_GECKO_PAGE_LIMIT  | False  | Used to change number of pages to query, default is 2. min: 1 max:28.  |
+|  Name | Mandatory  | Requires | Description |
+|---|---|---|---|
+| CMC_PRO_API_KEY  | False | - | Enables coinmarketcap queries.   |
+| BITQUERY_API_KEY  | False | - | Enables bitquery queries. Returns new listed coins.   |
+| GOOGLE_CHAT_ROOM_HOOK  | True | - | Notifies Google chat room. Enables Google chat notifications.    |
+| SLACK_CHANNEL_HOOK  | False | - |  Notifies Slack channel. Enables Slack Channel notifications.  |
+| TELEGRAM_CHANNEL_HOOK  | False | - |  Notifies Telegram channel. Enables Telegram Channel notifications.  |
+| CUSTOM_CHANNEL_HOOK  | False | - |  Feeds provided rest endpoint. Enables Custom notifications.  |
+| HOURLY_PERCENTAGE  | False | - | Used to filter price increase percentage in an hour, default is 10%.  |
+| DAILY_PERCENTAGE  | False | - | Used to filter price increase percentage in a day, inactive if not defined.  |
+| COIN_GECKO_PAGE_LIMIT  | False  | - | Used to change number of pages to query, default is 2. min: 1 max:28.  |
+| BITQUERY_NEW_LISTED_BSC_COINS_ENABLED  | False | BITQUERY_API_KEY | Enables new listed BSC coins notifications.   |
+| BITQUERY_NEW_LISTED_ETH_COINS_ENABLED  | False | BITQUERY_API_KEY | Enables new listed Eth coins notifications.   |
+
 ---
 - Api token (CMC_PRO_API_KEY) can be obtained from https://coinmarketcap.com/api/ . (I am using Free version)
 - Api token (BITQUERY_API_KEY) can be obtained from https://graphql.bitquery.io/ide . (I am using Developer (free) version)
