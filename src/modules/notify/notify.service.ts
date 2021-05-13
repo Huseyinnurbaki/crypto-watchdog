@@ -13,7 +13,7 @@ export class NotifyService implements OnModuleInit {
   messageFactory: MessageFactory;
   constructor(private readonly requestService: RequestService) {}
   private readonly logger = new Logger(NotifyService.name);
-
+  itemsPerPage = 8;
   onModuleInit() {
     this.messageFactory = new MessageFactory();
   }
@@ -25,9 +25,9 @@ export class NotifyService implements OnModuleInit {
     newerVersion && data.unshift(newerVersion);
     this.logger.warn('number of data will be published -->', data.length.toString());
     if (!data.length) return;
-    const numberOfPages = Math.floor(data.length / 8) + 1;
-    for (let i = 1; i < numberOfPages; i++) {
-      const page = paginate(data, 8, i);
+    const numberOfPages = Math.floor(data.length / this.itemsPerPage) + 1;
+    for (let i = 1; i <= numberOfPages; i++) {
+      const page = paginate(data, this.itemsPerPage, i);
       await this.invokeChannels(page);
     }
   }
