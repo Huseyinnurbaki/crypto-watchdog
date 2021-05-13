@@ -35,7 +35,7 @@ export class NotifyService implements OnModuleInit {
   async invokeChannels(page: [NotifyModel]) {
     await this.notifyGoogleChatRoom(page);
     await this.notifySlackChannel(page);
-    // await this.notifyCustomChannel(page); // not adapted yet
+    await this.notifyCustomChannel(page);
     // await this.notifyTelegramChannel(page);  // not adapted yet
   }
 

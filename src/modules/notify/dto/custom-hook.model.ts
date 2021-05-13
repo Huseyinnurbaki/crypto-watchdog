@@ -6,6 +6,7 @@ export class CustomHook {
     this.symbol = data.symbol;
     this.source = data.source;
     this.name = data.name;
+    this.notificationType = data.notificationType;
     this.priceChangePercentage1h = data.priceChangePercentage1h;
     this.priceChangePercentage24h = data.priceChangePercentage24h;
     this.price = data.price;
