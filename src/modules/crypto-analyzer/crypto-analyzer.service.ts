@@ -5,11 +5,24 @@ import {
   CMC_API_CRYPTOCURRENCY__LISTINGS_LATEST,
   COINGECKO_API__LISTINGS_LATEST,
 } from 'src/utils/paths';
-import { AppConfigs, getCoinGeckoPageLimit } from 'src/utils/constants';
+import {
+  AppConfigs,
+  exceptionMessages,
+  getCoinGeckoPageLimit,
+  BitQueryApiNetworks,
+  BitQueryApiNetworkCrawlURLs,
+} from 'src/utils/constants';
 import queries from 'src/utils/queries';
 import { RequestService } from '../network/request.service';
 import { NotifyService } from '../notify/notify.service';
-import { filterBitQuery, filterCoinMarketCap, filterGecko } from './crypto-analyzer.helper';
+import {
+  filterGecko,
+  filterCoinMarketCap,
+  filterBitQueryNewBSCTokens,
+  filterBitQueryNewETHTokens,
+} from './helpers/crypto-analyzer.filter';
+import { parseInfo } from './helpers/crypto-analyzer-crawler.helper';
+import { NotifyModel } from '../notify/dto/notify.model';
 
 @Injectable()
 export class CryptoAnalyzerService {
@@ -27,12 +40,13 @@ export class CryptoAnalyzerService {
 
   @Cron('*/60 * * * *')
   async getNewbies() {
-    if (!AppConfigs.BITQUERY_API_KEY)
-      return 'This feature is inactive. Checkout github.com/Huseyinnurbaki/crypto-watchdog for troubleshooting.';
-    const bitqueryPotentials = await this.getBitqueryCryptos();
-    this.notifyService.publish(bitqueryPotentials);
+    if (!AppConfigs.BITQUERY_API_KEY) return exceptionMessages.inactiveFeature;
+    const bitQueryNewBSCTokens: [NotifyModel] = await this.getBitqueryNewBSCTokens();
+    const bitQueryNewETHTokens: [NotifyModel] = await this.getBitqueryNewEthTokens();
+    const mergedCoinList: [NotifyModel] = [].concat.apply(bitQueryNewBSCTokens, bitQueryNewETHTokens);
+    this.notifyService.publish(mergedCoinList);
 
-    return bitqueryPotentials;
+    return bitQueryNewETHTokens;
   }
 
   async getCoinGeckoCryptos() {
@@ -55,9 +69,38 @@ export class CryptoAnalyzerService {
     return filterCoinMarketCap(data);
   }
 
-  async getBitqueryCryptos() {
-    const data = await this.requestService.graphql(BITQUERY_API_BASEURL, queries.ethereumQuery);
+  async getBitqueryNewBSCTokens(): Promise<[NotifyModel]> {
+    if (!AppConfigs.BITQUERY_NEW_LISTED_BSC_COINS_ENABLED || !AppConfigs.BITQUERY_API_KEY) return null;
+    const newTokens = await this.requestService.graphql(
+      BITQUERY_API_BASEURL,
+      queries.newToken(BitQueryApiNetworks.BSC),
+    );
+    const filteredTokens = filterBitQueryNewBSCTokens(newTokens);
+    return await this.crawlInformation(BitQueryApiNetworks.BSC, filteredTokens);
+  }
 
-    return filterBitQuery(data);
+  async getBitqueryNewEthTokens(): Promise<[NotifyModel]> {
+    if (!AppConfigs.BITQUERY_NEW_LISTED_ETH_COINS_ENABLED || !AppConfigs.BITQUERY_API_KEY) return null;
+    const newTokens = await this.requestService.graphql(
+      BITQUERY_API_BASEURL,
+      queries.newToken(BitQueryApiNetworks.Ethereum),
+    );
+    const filteredTokens = filterBitQueryNewETHTokens(newTokens);
+    return this.crawlInformation(BitQueryApiNetworks.Ethereum, filteredTokens);
+  }
+
+  async crawlInformation(network: string, coinsList: [NotifyModel]) {
+    for await (const coin of coinsList) {
+      coin.holders = await this.crawlAdditionalInfo(network, coin.address);
+    }
+    return coinsList;
+  }
+
+  async crawlAdditionalInfo(network, address: string) {
+    if (!address) return '';
+    const query = `${BitQueryApiNetworkCrawlURLs[network]}/${address}`;
+    const data = await this.requestService.get(query);
+    const parsed = parseInfo(network, data);
+    return parsed;
   }
 }

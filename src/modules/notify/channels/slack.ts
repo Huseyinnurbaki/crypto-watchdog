@@ -7,6 +7,7 @@ https://api.slack.com/messaging/composing/layouts
 #############
 */
 
+import { NotificationTypes } from 'src/utils/constants';
 import { NotifyModel } from '../dto/notify.model';
 
 export function slackChannelMessage(data: [NotifyModel]) {
@@ -29,33 +30,55 @@ export function slackChannelMessage(data: [NotifyModel]) {
 
   return body;
 }
+
 function generateSection(Section: NotifyModel) {
-  if (Section.errorMessage) {
-    return errorSection(Section);
-  } else if (Section.warnMessage) {
-    return warningSection(Section);
+  switch (Section.notificationType) {
+    case NotificationTypes.ERROR:
+      return errorSection(Section);
+    case NotificationTypes.WARN:
+      return warningSection(Section);
+    case NotificationTypes.SUDDEN_CHANGES:
+      return suddenChangesSection(Section);
+    case NotificationTypes.NEW_LISTED:
+      return newListedSection(Section);
+    default:
+      return suddenChangesSection(Section);
   }
-  return successSection(Section);
+}
+
+function newListedSection(section: NotifyModel) {
+  const displayData = {
+    holders: `Holders: ${section.holders}`,
+    address: `Address: ${section.address}`,
+    decimals: `Decimals: ${section.decimals}`,
+    timestamp: `Timestamp: ${section.timestamp}`,
+    network: `Network: ${section.network}`,
+    source: `Currency | ${section.source}`,
+    title: `[${section.symbol}] ${section.name}`,
+  };
+  const content = `*<fakeLink.toHotelPage.com|${displayData.title}>* \n ${displayData.holders}\n ${displayData.network}\n ${displayData.decimals}\n ${displayData.timestamp}\n ${displayData.address}`;
+  return singleRegularSection(content, displayData);
 }
 
 function warningSection(row: NotifyModel) {
-  const message = `Info | ${row.source} | ${row.warnMessage}`;
+  const message = `Info | ${row.source} | ${row.message}`;
   return plainText(message);
 }
 function errorSection(row: NotifyModel) {
-  const message = `Attention | ${row.source} | ${row.errorMessage}`;
+  const message = `Attention | ${row.source} | ${row.message}`;
   return plainText(message);
 }
 
-function successSection(section: NotifyModel) {
-  const lines = {
+function suddenChangesSection(section: NotifyModel) {
+  const displayData = {
     price: `price: ${section.price}`,
     percentChangeHourly: `1h  %: ${section.priceChangePercentage1h}`,
     percentChangeDaily: `24h %: ${section.priceChangePercentage24h}`,
     title: `[${section.symbol}] ${section.name}`,
     source: `Currency | ${section.source}`,
   };
-  return singleRegularSection(lines);
+  const content = `*<fakeLink.toHotelPage.com|${displayData.title}>*\n${displayData.price}\n${displayData.percentChangeHourly}\n${displayData.percentChangeDaily}`;
+  return singleRegularSection(content, displayData);
 }
 
 function plainText(message: string) {
@@ -73,7 +96,7 @@ function plainText(message: string) {
   return plainTextSection;
 }
 
-function singleRegularSection(lines) {
+function singleRegularSection(content, displayData) {
   const block = [
     {
       type: 'divider',
@@ -82,7 +105,7 @@ function singleRegularSection(lines) {
       type: 'section',
       text: {
         type: 'mrkdwn',
-        text: `*<fakeLink.toHotelPage.com|${lines.title}>*\n${lines.price}\n${lines.percentChangeHourly}\n${lines.percentChangeDaily}`,
+        text: content,
       },
     },
     {
@@ -91,7 +114,7 @@ function singleRegularSection(lines) {
         {
           type: 'plain_text',
           emoji: true,
-          text: `${lines.source}`,
+          text: `${displayData.source}`,
         },
       ],
     },

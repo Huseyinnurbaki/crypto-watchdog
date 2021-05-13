@@ -28,3 +28,11 @@ export function assignColor(value, range) {
   }
   return MessageColors.default;
 }
+
+export function removeEvery(value: string, pattern) {
+  return value.replace(`/${pattern}/g`, '');
+}
+
+export function paginate(array, page_size, page_number) {
+  return array.slice((page_number - 1) * page_size, page_number * page_size);
+}

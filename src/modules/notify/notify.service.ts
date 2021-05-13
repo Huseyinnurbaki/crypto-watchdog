@@ -6,6 +6,7 @@ import { MessageFactory } from './message.factory';
 import { ChannelProviders } from 'src/utils/providers';
 import { isOutdated } from './notify.helper';
 import { AppConfigs } from 'src/utils/constants';
+import { paginate } from 'src/utils/js-utils';
 
 @Injectable()
 export class NotifyService implements OnModuleInit {
@@ -16,16 +17,31 @@ export class NotifyService implements OnModuleInit {
   onModuleInit() {
     this.messageFactory = new MessageFactory();
   }
+
+// TODO: Remove duplicates 
+
   async publish(data: [NotifyModel]) {
     const newerVersion = await this.checkLatestGithubVersion();
     newerVersion && data.unshift(newerVersion);
     this.logger.warn('number of data will be published -->', data.length.toString());
     if (!data.length) return;
-    await this.notifyGoogleChatRoom(data);
-    await this.notifySlackChannel(data);
-    await this.notifyCustomChannel(data);
-    await this.notifyTelegramChannel(data);
+    const numberOfPages = Math.floor((data.length / 8)) + 1
+    for (let i = 1; i < numberOfPages; i++) {
+      const page = paginate(data, 8, i)
+      await this.invokeChannels(page)
+    }
+
+    
   }
+
+  async invokeChannels(page: [NotifyModel]){
+    await this.notifyGoogleChatRoom(page);
+    await this.notifySlackChannel(page);
+    // await this.notifyCustomChannel(page); // not adapted yet
+    // await this.notifyTelegramChannel(page);  // not adapted yet
+  }
+
+  
 
   async checkLatestGithubVersion(): Promise<NotifyModel> {
     const publishedVersions = await this.requestService.get(GITHUB_RELEASES);

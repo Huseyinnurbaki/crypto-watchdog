@@ -1,3 +1,4 @@
+import { NotificationTypes } from 'src/utils/constants';
 import { NotifyModel } from './notify.model';
 
 export class CustomHook {
@@ -8,16 +9,23 @@ export class CustomHook {
     this.priceChangePercentage1h = data.priceChangePercentage1h;
     this.priceChangePercentage24h = data.priceChangePercentage24h;
     this.price = data.price;
-    this.errorMessage = data.errorMessage;
-    this.warnMessage = data.warnMessage;
+    this.message = data.message;
+    this.holders = data.holders;
+    this.address = data.address;
+    this.decimals = data.decimals;
+    this.timestamp = data.timestamp;
   }
 
+  notificationType: NotificationTypes;
   symbol: string;
   source: string;
   name: string;
   priceChangePercentage1h: string;
   priceChangePercentage24h: string;
   price: string;
-  errorMessage: string;
-  warnMessage: string;
+  message: string;
+  holders: string;
+  address: string;
+  decimals: number;
+  timestamp: string;
 }

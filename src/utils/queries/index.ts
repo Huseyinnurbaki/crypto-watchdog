@@ -1,5 +1,5 @@
-import { ethereum } from './ethereum';
+import { ethereum, newToken } from './queries';
 
-const queries = { ethereumQuery: ethereum };
+const queries = { ethereum, newToken };
 
 export default queries;

@@ -27,20 +27,20 @@ export function telegramChannelMessage(data: [NotifyModel]) {
   return body;
 }
 function generateSection(Section: NotifyModel) {
-  if (Section.errorMessage) {
+  if (Section.message) {
     return errorSection(Section);
-  } else if (Section.warnMessage) {
+  } else if (Section.message) {
     return warningSection(Section);
   }
   return successSection(Section);
 }
 
 function warningSection(row: NotifyModel) {
-  const message = `Info | ${row.source} | ${row.warnMessage}`;
+  const message = `Info | ${row.source} | ${row.message}`;
   return plainText(message);
 }
 function errorSection(row: NotifyModel) {
-  const message = `Attention | ${row.source} | ${row.errorMessage}`;
+  const message = `Attention | ${row.source} | ${row.message}`;
   return plainText(message);
 }
 

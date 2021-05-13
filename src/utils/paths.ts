@@ -40,3 +40,17 @@ Github Api
 */
 
 export const GITHUB_RELEASES = 'https://api.github.com/repos/Huseyinnurbaki/crypto-watchdog/releases';
+
+/*
+#############
+BscScan
+EthScan
+/token -> returns token information in html
+#############
+*/
+
+const BSC_SCAN = 'https://bscscan.com';
+const ETH_SCAN = 'https://etherscan.io';
+
+export const BSC_SCAN_TOKEN = `${BSC_SCAN}/token`;
+export const ETH_SCAN_TOKEN = `${ETH_SCAN}/token`;

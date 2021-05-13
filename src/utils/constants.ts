@@ -1,4 +1,11 @@
+/*
+
+Do Not Modify Existing Namings/Values
+
+*/
+
 import { config } from 'dotenv';
+import { BSC_SCAN_TOKEN, ETH_SCAN_TOKEN } from './paths';
 
 config();
 
@@ -13,6 +20,8 @@ export const AppConfigs = {
   HOURLY_PERCENTAGE: Number(process.env.HOURLY_PERCENTAGE),
   DAILY_PERCENTAGE: Number(process.env.DAILY_PERCENTAGE),
   COIN_GECKO_PAGE_LIMIT: Number(process.env.COIN_GECKO_PAGE_LIMIT),
+  BITQUERY_NEW_LISTED_BSC_COINS_ENABLED: process.env.BITQUERY_NEW_LISTED_BSC_COINS_ENABLED,
+  BITQUERY_NEW_LISTED_ETH_COINS_ENABLED: process.env.BITQUERY_NEW_LISTED_ETH_COINS_ENABLED,
 };
 
 const Colors = {
@@ -32,7 +41,7 @@ export const MessageColors = {
 };
 
 export const ListingRules = {
-  hourly_percentage: AppConfigs.HOURLY_PERCENTAGE || 10,
+  hourly_percentage: AppConfigs.HOURLY_PERCENTAGE || 3,
   daily_percentage: AppConfigs.DAILY_PERCENTAGE || 999999,
 };
 
@@ -43,3 +52,23 @@ export function getCoinGeckoPageLimit() {
   if (PAGE_LIMIT > 0 && PAGE_LIMIT <= 28) return PAGE_LIMIT;
   return DEFAULTPAGELIMIT;
 }
+
+export enum NotificationTypes {
+  ERROR = -1,
+  WARN = 0,
+  SUDDEN_CHANGES = 1,
+  NEW_LISTED = 2,
+}
+
+export const BitQueryApiNetworks = {
+  Ethereum: 'ethereum',
+  BSC: 'bsc',
+};
+export const BitQueryApiNetworkCrawlURLs = {
+  bsc: BSC_SCAN_TOKEN,
+  ethereum: ETH_SCAN_TOKEN,
+};
+
+export const exceptionMessages = {
+  inactiveFeature: 'This feature is inactive. Checkout github.com/Huseyinnurbaki/crypto-watchdog for troubleshooting.',
+};
