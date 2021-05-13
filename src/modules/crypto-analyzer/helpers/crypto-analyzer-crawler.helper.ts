@@ -1,4 +1,4 @@
-import { parse } from 'node-html-parser';
+import { parse } from '@hhaluk/node-html-parser';
 import { BitQueryApiNetworks } from 'src/utils/constants';
 
 export function parseInfo(network, htmlResponse) {
