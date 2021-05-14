@@ -41,9 +41,11 @@ export class CryptoAnalyzerService {
   @Cron('*/60 * * * *')
   async getNewbies() {
     if (!AppConfigs.BITQUERY_API_KEY) return exceptionMessages.inactiveFeature;
-    const bitQueryNewBSCTokens: [NotifyModel] = await this.getBitqueryNewBSCTokens();
-    const bitQueryNewETHTokens: [NotifyModel] = await this.getBitqueryNewEthTokens();
-    const mergedCoinList: [NotifyModel] = [].concat.apply(bitQueryNewBSCTokens, bitQueryNewETHTokens);
+    if (!AppConfigs.BITQUERY_NEW_LISTED_BSC_COINS_ENABLED && !AppConfigs.BITQUERY_NEW_LISTED_ETH_COINS_ENABLED)
+      return exceptionMessages.missingBitqueryNetworkEnvVariable;
+    const bitQueryNewBSCTokens = await this.getBitqueryNewBSCTokens();
+    const bitQueryNewETHTokens = await this.getBitqueryNewEthTokens();
+    const mergedCoinList = [].concat.apply(bitQueryNewBSCTokens, bitQueryNewETHTokens);
     this.notifyService.publish(mergedCoinList);
 
     return mergedCoinList;
@@ -69,8 +71,8 @@ export class CryptoAnalyzerService {
     return filterCoinMarketCap(data);
   }
 
-  async getBitqueryNewBSCTokens(): Promise<[NotifyModel]> {
-    if (!AppConfigs.BITQUERY_NEW_LISTED_BSC_COINS_ENABLED || !AppConfigs.BITQUERY_API_KEY) return null;
+  async getBitqueryNewBSCTokens() {
+    if (!AppConfigs.BITQUERY_NEW_LISTED_BSC_COINS_ENABLED) return [];
     const newTokens = await this.requestService.graphql(
       BITQUERY_API_BASEURL,
       queries.newToken(BitQueryApiNetworks.BSC),
@@ -79,8 +81,8 @@ export class CryptoAnalyzerService {
     return await this.crawlInformation(BitQueryApiNetworks.BSC, filteredTokens);
   }
 
-  async getBitqueryNewEthTokens(): Promise<[NotifyModel]> {
-    if (!AppConfigs.BITQUERY_NEW_LISTED_ETH_COINS_ENABLED || !AppConfigs.BITQUERY_API_KEY) return null;
+  async getBitqueryNewEthTokens() {
+    if (!AppConfigs.BITQUERY_NEW_LISTED_ETH_COINS_ENABLED) return [];
     const newTokens = await this.requestService.graphql(
       BITQUERY_API_BASEURL,
       queries.newToken(BitQueryApiNetworks.Ethereum),

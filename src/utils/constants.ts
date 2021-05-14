@@ -71,4 +71,6 @@ export const BitQueryApiNetworkCrawlURLs = {
 
 export const exceptionMessages = {
   inactiveFeature: 'This feature is inactive. Checkout github.com/Huseyinnurbaki/crypto-watchdog for troubleshooting.',
+  missingBitqueryNetworkEnvVariable:
+    'Enable at least 1 network for this api. Checkout https://github.com/Huseyinnurbaki/crypto-watchdog/blob/master/README.md for more.',
 };

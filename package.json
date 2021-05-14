@@ -13,7 +13,9 @@
     "cryptocurrency",
     "notification",
     "google",
-    "slack"
+    "slack",
+    "webhooks",
+    "telegram"
   ],
   "bugs": {
     "url": "https://github.com/Huseyinnurbaki/crypto-watchdog/issues"
