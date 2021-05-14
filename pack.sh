@@ -1,1 +1,1 @@
-docker build -t hhaluk/crypto-watchdog:latest -t hhaluk/crypto-watchdog:0.2.1 .
+docker build -t hhaluk/crypto-watchdog:latest -t hhaluk/crypto-watchdog:0.3.0 .
