@@ -15,21 +15,9 @@ env:
   IMAGE_NAME: hhaluk/crypto-watchdog
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Run tests
-        run: docker build . --file Dockerfile
-
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
   push:
-    # Ensure test job passes before pushing image.
-    needs: build
-
     runs-on: ubuntu-latest
 
     permissions:
@@ -66,5 +54,6 @@ jobs:
           echo VERSION_LATEST=$VERSION_LATEST
           echo $IMAGE_NAME $IMAGE_ID:$VERSION
 
-          # docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker image ls
           # docker push $IMAGE_ID:$VERSION
