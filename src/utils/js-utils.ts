@@ -36,3 +36,25 @@ export function removeEvery(value: string, pattern) {
 export function paginate(array, page_size, page_number) {
   return array.slice((page_number - 1) * page_size, page_number * page_size);
 }
+
+export function removeSelectedFromArray(arr, key, rule) {
+  const tmpArray = [];
+  try {
+    for (let i = 0; i < arr.length; i++) {
+      if (rule(arr[i]?.[key])) {
+        tmpArray.push(arr[i]);
+      }
+    }
+    return tmpArray;
+  } catch (error) {
+    console.log(JSON.stringify(error));
+    return arr;
+  }
+}
+
+export const Rules = {
+  tokenHolderSize: holderSize => {
+    if (Number(holderSize.replace(' addresses', '')) > 100) return true;
+    return false;
+  },
+};

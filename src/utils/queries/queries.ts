@@ -16,7 +16,7 @@ export const ethereum = `
 export const newToken = network => `
 {
   ethereum(network: ${network}) {
-    smartContractCalls(options: {desc: "block.height", limit: 30}, smartContractMethod: {is: "Contract Creation"}, smartContractType: {is: Token}) {
+    smartContractCalls(options: {desc: "block.height", limit: 60}, smartContractMethod: {is: "Contract Creation"}, smartContractType: {is: Token}) {
       block {
         height
         timestamp {

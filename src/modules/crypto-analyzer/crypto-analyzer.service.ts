@@ -23,6 +23,7 @@ import {
 } from './helpers/crypto-analyzer.filter';
 import { parseInfo } from './helpers/crypto-analyzer-crawler.helper';
 import { NotifyModel } from '../notify/dto/notify.model';
+import { removeSelectedFromArray, Rules } from 'src/utils/js-utils';
 
 @Injectable()
 export class CryptoAnalyzerService {
@@ -95,7 +96,7 @@ export class CryptoAnalyzerService {
     for await (const coin of coinsList) {
       coin.holders = await this.crawlAdditionalInfo(network, coin.address);
     }
-    return coinsList;
+    return removeSelectedFromArray(coinsList, 'holders', Rules.tokenHolderSize);
   }
 
   async crawlAdditionalInfo(network, address: string) {
