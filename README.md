@@ -2,7 +2,7 @@
 
 ---
 [![CI](https://github.com/Huseyinnurbaki/crypto-watchdog/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/Huseyinnurbaki/crypto-watchdog/actions/workflows/main.yml)
-# Crypto Watchdog is a free crypto market observer. 
+# Crypto Watchdog is a free, containerized crypto market observer service.
 Finds new listed coins every hour and Queries coins/tokens every 45 minutes & returns the ones increased or decreased more than %10 in an hour & notifies google chat room & Slack Channel & Telegram or your services. 
 
 - www.coingecko.com (default)
