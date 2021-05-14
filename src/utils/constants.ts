@@ -9,7 +9,7 @@ import { BSC_SCAN_TOKEN, ETH_SCAN_TOKEN } from './paths';
 
 config();
 
-export const CRYPTO_WATCHDOG_VERSION = '0.3.0';
+export const CRYPTO_WATCHDOG_VERSION = '0.3.1';
 export const AppConfigs = {
   CMC_PRO_API_KEY: process.env.CMC_PRO_API_KEY,
   BITQUERY_API_KEY: process.env.BITQUERY_API_KEY,
