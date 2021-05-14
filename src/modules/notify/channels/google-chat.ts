@@ -60,7 +60,7 @@ function newListedRow(row: NotifyModel) {
     network: `Network: ${row.network}`,
   };
   const topLabel = `Source | ${row.source}`;
-  const content = `<b>[${row.symbol}] \n ${row.name}</b> \n ${displayData.decimals} \n ${displayData.network} \n ${displayData.holders} \n ${displayData.timestamp} \n ${row.address} \n`;
+  const content = `<b>[${row.symbol}] \n ${row.name}</b> \n ${displayData.decimals} \n ${displayData.network} \n <font color=\"#${MessageColors.increased}\">${displayData.holders} \n </font>  ${displayData.timestamp} \n ${row.address} \n`;
   return generateWidget(topLabel, content);
 }
 

@@ -46,7 +46,7 @@ export class CryptoAnalyzerService {
     const mergedCoinList: [NotifyModel] = [].concat.apply(bitQueryNewBSCTokens, bitQueryNewETHTokens);
     this.notifyService.publish(mergedCoinList);
 
-    return bitQueryNewETHTokens;
+    return mergedCoinList;
   }
 
   async getCoinGeckoCryptos() {
