@@ -5,19 +5,11 @@ on:
     types: [published]
     branches:
       - master
-
-    # Publish `v1.2.3` tags as releases.
-   # tags:
-   #   - ${GITHUB_REF}
-    #  - latest
-
 env:
   IMAGE_NAME: hhaluk/crypto-watchdog
 
 jobs:
-  # Push image to GitHub Packages.
-  # See also https://docs.docker.com/docker-hub/builds/
-  push:
+  release:
     runs-on: ubuntu-latest
 
     permissions:
@@ -29,10 +21,6 @@ jobs:
 
       - name: Prepare Release Version Tag
         run: |
-          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
-          # Change all uppercase to lowercase
-          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-
           # Strip git ref prefix from version
           VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
 
@@ -45,7 +33,7 @@ jobs:
           docker image ls
 
       - name: Build image
-        run: docker build . --file Dockerfile --tag $IMAGE_NAME:latest --tag $IMAGE_NAME:VERSION 
+        run: docker build . --file Dockerfile --tag $IMAGE_NAME:latest --tag $IMAGE_NAME:$VERSION 
 
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
