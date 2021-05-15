@@ -38,6 +38,7 @@ jobs:
 
           docker tag $IMAGE_NAME:latest $IMAGE_NAME:$VERSION
           docker image ls
-          docker image push $IMAGE_NAME:latest
           docker image push $IMAGE_NAME:$VERSION
+          docker image push $IMAGE_NAME:latest
+
         
