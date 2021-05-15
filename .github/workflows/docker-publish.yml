@@ -27,13 +27,12 @@ jobs:
           # Strip "v" prefix from tag name
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
 
-          echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
           echo $IMAGE_NAME $IMAGE_ID:$VERSION
           docker image ls
 
       - name: Build image
-        run: docker build . --file Dockerfile --tag $IMAGE_NAME:latest --tag $IMAGE_NAME:$VERSION 
+        run: docker build --tag $IMAGE_NAME:latest --tag $IMAGE_NAME:$VERSION .
 
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
