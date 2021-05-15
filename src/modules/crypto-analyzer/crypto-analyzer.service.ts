@@ -39,7 +39,7 @@ export class CryptoAnalyzerService {
     return mergedCoinList;
   }
 
-  @Cron('*/60 * * * *')
+  @Cron('*/30 * * * *')
   async getNewbies() {
     if (!AppConfigs.BITQUERY_API_KEY) return exceptionMessages.inactiveFeature;
     if (!AppConfigs.BITQUERY_NEW_LISTED_BSC_COINS_ENABLED && !AppConfigs.BITQUERY_NEW_LISTED_ETH_COINS_ENABLED)
