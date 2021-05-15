@@ -21,7 +21,6 @@ jobs:
 
       - name: Prepare Release Version Tag
         run: |
-          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
           # Strip git ref prefix from version
           VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
 
@@ -39,8 +38,7 @@ jobs:
 
       - name: Push DockerHub
         run: |
-          docker tag $IMAGE_ID $IMAGE_NAME:$VERSION
+          docker tag $IMAGE_NAME $IMAGE_NAME:$VERSION
           docker image ls
           # docker image push --all-tags $IMAGE_NAME
-          # docker push $IMAGE_ID:$VERSION
         
