@@ -19,17 +19,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Prepare Release Version Tag
-        run: |
-          # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-
-          echo VERSION=$VERSION
-          echo $IMAGE_NAME $IMAGE_ID:$VERSION
-
       - name: Build image
         run:  docker build . --file Dockerfile --tag $IMAGE_NAME
 
@@ -38,6 +27,14 @@ jobs:
 
       - name: Push DockerHub
         run: |
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+
+          echo VERSION=$VERSION
+          echo $IMAGE_NAME $VERSION
           docker image ls
           docker tag $IMAGE_NAME:latest $IMAGE_NAME:$VERSION
           docker image ls
