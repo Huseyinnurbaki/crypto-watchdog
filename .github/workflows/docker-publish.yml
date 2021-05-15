@@ -27,16 +27,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build image
-        run: docker build . --file Dockerfile --tag $IMAGE_NAME
-
-      - name: Log into registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
-
-      - name: Push image
+      - name: Prepare Release Version Tag
         run: |
           IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
-
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
 
@@ -46,14 +39,20 @@ jobs:
           # Strip "v" prefix from tag name
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
 
-
-          VERSION_LATEST=latest
-
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
-          echo VERSION_LATEST=$VERSION_LATEST
           echo $IMAGE_NAME $IMAGE_ID:$VERSION
-
-          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker image ls
+
+      - name: Build image
+        run: docker build . --file Dockerfile --tag $IMAGE_NAME:latest --tag $IMAGE_NAME:VERSION 
+
+      - name: Log into registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+
+      - name: Push DockerHub
+        run: |
+          docker image ls
+          # docker image push --all-tags $IMAGE_NAME
           # docker push $IMAGE_ID:$VERSION
+        
