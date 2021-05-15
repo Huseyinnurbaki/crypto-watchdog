@@ -7,6 +7,7 @@ on:
       - master
 env:
   IMAGE_NAME: hhaluk/crypto-watchdog
+  LATEST_TAG: latest
 
 jobs:
   release:
@@ -39,7 +40,7 @@ jobs:
 
       - name: Push DockerHub
         run: |
-          docker tag $IMAGE_NAME :latest
+          docker tag $IMAGE_NAME :$LATEST_TAG
           docker tag $IMAGE_NAME :$VERSION
           docker image ls
           # docker image push --all-tags $IMAGE_NAME
