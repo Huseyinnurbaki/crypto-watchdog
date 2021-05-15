@@ -32,15 +32,16 @@ jobs:
           docker image ls
 
       - name: Build image
-        run: docker build --tag $IMAGE_NAME:latest --tag $IMAGE_NAME :$VERSION .
+        run:  docker build . --file Dockerfile --tag $IMAGE_NAME
 
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
 
       - name: Push DockerHub
         run: |
+          docker tag $IMAGE_NAME :latest
+          docker tag $IMAGE_NAME :$VERSION
           docker image ls
-          
           # docker image push --all-tags $IMAGE_NAME
           # docker push $IMAGE_ID:$VERSION
         
