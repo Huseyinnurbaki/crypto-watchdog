@@ -7,7 +7,6 @@ on:
       - master
 env:
   IMAGE_NAME: hhaluk/crypto-watchdog
-  LATEST_TAG: latest
 
 jobs:
   release:
@@ -30,7 +29,6 @@ jobs:
 
           echo VERSION=$VERSION
           echo $IMAGE_NAME $IMAGE_ID:$VERSION
-          docker image ls
 
       - name: Build image
         run:  docker build . --file Dockerfile --tag $IMAGE_NAME
@@ -40,7 +38,6 @@ jobs:
 
       - name: Push DockerHub
         run: |
-          docker tag $IMAGE_NAME :$LATEST_TAG
           docker tag $IMAGE_NAME :$VERSION
           docker image ls
           # docker image push --all-tags $IMAGE_NAME
