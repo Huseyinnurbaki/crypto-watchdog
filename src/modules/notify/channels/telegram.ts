@@ -30,7 +30,7 @@ export function telegramChannelMessage(data: [NotifyModel]) {
 function tableModifier(sampleData) {
   let template = '``` |';
   let subline = ' |';
-  Object.keys(sampleData).forEach(function (k) {
+  Object.keys(sampleData).forEach(function(k) {
     switch (k) {
       case 'symbol':
         template = template.concat('   Symbol   |');
@@ -65,7 +65,10 @@ function tableModifier(sampleData) {
         break;
     }
   });
-  return template.concat('\n').concat(subline).concat('\n');
+  return template
+    .concat('\n')
+    .concat(subline)
+    .concat('\n');
 }
 function generateSection(Section: NotifyModel) {
   if (Section.message) {
@@ -91,15 +94,17 @@ function successSection(section: NotifyModel) {
     address: section.address && `${section.address.concat(new Array(45 - section.address.length).join(' '))}`,
     symbol: section.symbol && `${section.symbol.concat(new Array(11 - section.symbol.length).join(' '))}`,
     holders: section.holders && `${section.holders.concat(new Array(17 - section.holders.length).join(' '))}`,
-    priceChangePercentage1h: section.priceChangePercentage1h && `${section.priceChangePercentage1h.concat(
-      new Array(9 - section.priceChangePercentage1h.length).join(' '),
-    )}`,
-    priceChangePercentage24h: section.priceChangePercentage24h && `${section.priceChangePercentage24h.concat(
-      new Array(9 - section.priceChangePercentage24h.length).join(' '),
-    )}`,
-    price: section.price && `${parseFloat(section.price)
-      .toFixed(6)
-      .concat(new Array(14 - section.price.length).join(' '))}`,
+    priceChangePercentage1h:
+      section.priceChangePercentage1h &&
+      `${section.priceChangePercentage1h.concat(new Array(9 - section.priceChangePercentage1h.length).join(' '))}`,
+    priceChangePercentage24h:
+      section.priceChangePercentage24h &&
+      `${section.priceChangePercentage24h.concat(new Array(9 - section.priceChangePercentage24h.length).join(' '))}`,
+    price:
+      section.price &&
+      `${parseFloat(section.price)
+        .toFixed(6)
+        .concat(new Array(14 - section.price.length).join(' '))}`,
   };
   console.log(lines);
   return singleRegularSection(lines);
@@ -122,7 +127,7 @@ function plainText(message: string) {
 
 function singleRegularSection(lines) {
   let block = ' | ';
-  Object.keys(lines).forEach(function (k) {
+  Object.keys(lines).forEach(function(k) {
     if (lines[k] && block.indexOf(k) < 0) {
       switch (k) {
         case 'symbol':

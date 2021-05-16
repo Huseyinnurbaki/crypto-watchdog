@@ -11,7 +11,7 @@ import { paginate } from 'src/utils/js-utils';
 @Injectable()
 export class NotifyService implements OnModuleInit {
   messageFactory: MessageFactory;
-  constructor(private readonly requestService: RequestService) { }
+  constructor(private readonly requestService: RequestService) {}
   private readonly logger = new Logger(NotifyService.name);
   itemsPerPage = 8;
   onModuleInit() {
