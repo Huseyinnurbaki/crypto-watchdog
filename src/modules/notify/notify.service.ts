@@ -11,7 +11,7 @@ import { paginate } from 'src/utils/js-utils';
 @Injectable()
 export class NotifyService implements OnModuleInit {
   messageFactory: MessageFactory;
-  constructor(private readonly requestService: RequestService) {}
+  constructor(private readonly requestService: RequestService) { }
   private readonly logger = new Logger(NotifyService.name);
   itemsPerPage = 8;
   onModuleInit() {
@@ -36,7 +36,7 @@ export class NotifyService implements OnModuleInit {
     await this.notifyGoogleChatRoom(page);
     await this.notifySlackChannel(page);
     await this.notifyCustomChannel(page);
-    // await this.notifyTelegramChannel(page);  // not adapted yet
+    await this.notifyTelegramChannel(page);
   }
 
   async checkLatestGithubVersion(): Promise<NotifyModel> {

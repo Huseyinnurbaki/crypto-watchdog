@@ -13,8 +13,8 @@ export function telegramChannelMessage(data: [NotifyModel]) {
   let message = '';
   const head = '*Crypto Watchdog*\n';
   const info = '_List of CryptoCurrencies_\n\n';
-  const template =
-    '``` |   Symbol   |    Price    |   1h %   |   24h %  |      Source      |\n |------------|-------------|----------|----------|------------------|\n';
+
+  const template = tableModifier(data[0]);
 
   message = message
     .concat(head)
@@ -25,6 +25,47 @@ export function telegramChannelMessage(data: [NotifyModel]) {
   });
   const body = { text: message.concat('```') };
   return body;
+}
+
+function tableModifier(sampleData) {
+  let template = '``` |';
+  let subline = ' |';
+  Object.keys(sampleData).forEach(function (k) {
+    switch (k) {
+      case 'symbol':
+        template = template.concat('   Symbol   |');
+        subline = subline = subline.concat('------------|');
+        break;
+      case 'price':
+        template = template.concat('    Price    |');
+        subline = subline.concat('-------------|');
+        break;
+      case 'priceChangePercentage1h':
+        template = template.concat('   1h %   |');
+        subline = subline.concat('----------|');
+        break;
+      case 'priceChangePercentage24h':
+        template = template.concat('  24h %   |');
+        subline = subline.concat('----------|');
+        break;
+      case 'source':
+        template = template.concat('      Source      |');
+        subline = subline.concat('------------------|');
+        break;
+      case 'holders':
+        template = template.concat('     Holders      |');
+        subline = subline.concat('------------------|');
+        break;
+      case 'address':
+        template = template.concat('                   Address                    |');
+        subline = subline.concat('----------------------------------------------|');
+        break;
+
+      default:
+        break;
+    }
+  });
+  return template.concat('\n').concat(subline).concat('\n');
 }
 function generateSection(Section: NotifyModel) {
   if (Section.message) {
@@ -46,18 +87,21 @@ function errorSection(row: NotifyModel) {
 
 function successSection(section: NotifyModel) {
   const lines = {
-    price: `${parseFloat(section.price)
-      .toFixed(6)
-      .concat(new Array(14 - section.price.length).join(' '))}`,
-    percentChangeHourly: `${section.priceChangePercentage1h.concat(
+    source: section?.source && `${section.source.concat(new Array(17 - section.source.length).join(' '))}`,
+    address: section.address && `${section.address.concat(new Array(45 - section.address.length).join(' '))}`,
+    symbol: section.symbol && `${section.symbol.concat(new Array(11 - section.symbol.length).join(' '))}`,
+    holders: section.holders && `${section.holders.concat(new Array(17 - section.holders.length).join(' '))}`,
+    priceChangePercentage1h: section.priceChangePercentage1h && `${section.priceChangePercentage1h.concat(
       new Array(9 - section.priceChangePercentage1h.length).join(' '),
     )}`,
-    percentChangeDaily: `${section.priceChangePercentage24h.concat(
+    priceChangePercentage24h: section.priceChangePercentage24h && `${section.priceChangePercentage24h.concat(
       new Array(9 - section.priceChangePercentage24h.length).join(' '),
     )}`,
-    title: `${section.symbol.concat(new Array(11 - section.symbol.length).join(' '))}`,
-    source: `${section.source.concat(new Array(17 - section.source.length).join(' '))}`,
+    price: section.price && `${parseFloat(section.price)
+      .toFixed(6)
+      .concat(new Array(14 - section.price.length).join(' '))}`,
   };
+  console.log(lines);
   return singleRegularSection(lines);
 }
 
@@ -77,17 +121,36 @@ function plainText(message: string) {
 }
 
 function singleRegularSection(lines) {
-  const block =
-    ' | ' +
-    lines.title +
-    ' | ' +
-    lines.price +
-    ' | ' +
-    lines.percentChangeHourly +
-    ' | ' +
-    lines.percentChangeDaily +
-    ' | ' +
-    lines.source +
-    ' |\n';
-  return block;
+  let block = ' | ';
+  Object.keys(lines).forEach(function (k) {
+    if (lines[k] && block.indexOf(k) < 0) {
+      switch (k) {
+        case 'symbol':
+          block = block.concat(lines.symbol + ' | ');
+          break;
+        case 'price':
+          block = block.concat(lines.price + ' | ');
+          break;
+        case 'priceChangePercentage1h':
+          block = block.concat(lines.priceChangePercentage1h + ' | ');
+          break;
+        case 'priceChangePercentage24h':
+          block = block.concat(lines.priceChangePercentage24h + ' | ');
+          break;
+        case 'source':
+          block = block.concat(lines.source + ' | ');
+          break;
+        case 'address':
+          block = block.concat(lines.address + ' | ');
+          break;
+        case 'holders':
+          block = block.concat(lines.holders + ' | ');
+          break;
+        default:
+          break;
+      }
+    }
+  });
+  console.log(block);
+  return block.concat('\n');
 }
