@@ -7,20 +7,45 @@ https://core.telegram.org/bots#6-botfather
 #############
 */
 
+import { NotificationTypes } from 'src/utils/constants';
 import { NotifyModel } from '../dto/notify.model';
+const singleMessages = [];
+const tableMessages = [];
 
 export function telegramChannelMessage(data: [NotifyModel]) {
   let message = '';
   const head = '*Crypto Watchdog*\n';
-  const info = '_List of CryptoCurrencies_\n\n';
+  let info = '_List of CryptoCurrencies_\n';
+  data.forEach(element => {
+    switch (element.notificationType) {
+      case NotificationTypes.ERROR:
+        singleMessages.push(element);
+        break;
+      case NotificationTypes.WARN:
+        singleMessages.push(element);
+        break;
+      case NotificationTypes.SUDDEN_CHANGES:
+        tableMessages.push(element);
+        break;
+      case NotificationTypes.NEW_LISTED:
+        tableMessages.push(element);
+        break;
+      default:
+        tableMessages.push(element);
+        break;
+    }
+  });
 
-  const template = tableModifier(data[0]);
-
+  const template = tableModifier(tableMessages[0]);
+  singleMessages.map(cur => {
+    info += generateSection(cur);
+  });
   message = message
     .concat(head)
     .concat(info)
-    .concat(template);
-  data.map(cur => {
+    .concat('\n');
+  message = message.concat(template);
+  tableMessages.map(cur => {
     message += generateSection(cur);
   });
   const body = { text: message.concat('```') };
@@ -52,6 +77,10 @@ function tableModifier(sampleData) {
         template = template.concat('      Source      |');
         subline = subline.concat('------------------|');
         break;
+      case 'network':
+        template = template.concat('      Network      |');
+        subline = subline.concat('------------------|');
+        break;
       case 'holders':
         template = template.concat('     Holders      |');
         subline = subline.concat('------------------|');
@@ -60,7 +89,6 @@ function tableModifier(sampleData) {
         template = template.concat('                   Address                    |');
         subline = subline.concat('----------------------------------------------|');
         break;
-
       default:
         break;
     }
@@ -70,29 +98,35 @@ function tableModifier(sampleData) {
     .concat(subline)
     .concat('\n');
 }
+
 function generateSection(Section: NotifyModel) {
-  if (Section.message) {
-    return errorSection(Section);
-  } else if (Section.message) {
-    return warningSection(Section);
+  switch (Section.notificationType) {
+    case NotificationTypes.ERROR:
+      return errorSection(Section);
+    case NotificationTypes.WARN:
+      return warningSection(Section);
+    case NotificationTypes.SUDDEN_CHANGES:
+      return suddenChangesSection(Section);
+    case NotificationTypes.NEW_LISTED:
+      return suddenChangesSection(Section);
+    default:
+      return suddenChangesSection(Section);
   }
-  return successSection(Section);
 }
 
-function warningSection(row: NotifyModel) {
-  const message = `Info | ${row.source} | ${row.message}`;
-  return plainText(message);
+function warningSection(section: NotifyModel) {
+  return `Info | ${section.source} | ${section.message} \n`;
 }
-function errorSection(row: NotifyModel) {
-  const message = `Attention | ${row.source} | ${row.message}`;
-  return plainText(message);
+function errorSection(section: NotifyModel) {
+  return `Attention | ${section.source} | ${section.message} \n`;
 }
 
-function successSection(section: NotifyModel) {
+function suddenChangesSection(section: NotifyModel) {
   const lines = {
     source: section?.source && `${section.source.concat(new Array(17 - section.source.length).join(' '))}`,
     address: section.address && `${section.address.concat(new Array(45 - section.address.length).join(' '))}`,
     symbol: section.symbol && `${section.symbol.concat(new Array(11 - section.symbol.length).join(' '))}`,
+    network: section.network && `${section.network.concat(new Array(17 - section.network.length).join(' '))}`,
     holders: section.holders && `${section.holders.concat(new Array(17 - section.holders.length).join(' '))}`,
     priceChangePercentage1h:
       section.priceChangePercentage1h &&
@@ -106,23 +140,7 @@ function successSection(section: NotifyModel) {
         .toFixed(6)
         .concat(new Array(14 - section.price.length).join(' '))}`,
   };
-  console.log(lines);
   return singleRegularSection(lines);
-}
-
-function plainText(message: string) {
-  const plainTextSection = [
-    {
-      type: 'section',
-      text: {
-        type: 'plain_text',
-        text: message,
-        emoji: true,
-      },
-    },
-  ];
-
-  return plainTextSection;
 }
 
 function singleRegularSection(lines) {
@@ -151,11 +169,13 @@ function singleRegularSection(lines) {
         case 'holders':
           block = block.concat(lines.holders + ' | ');
           break;
+        case 'network':
+          block = block.concat(lines.network + ' | ');
+          break;
         default:
           break;
       }
     }
   });
-  console.log(block);
   return block.concat('\n');
 }

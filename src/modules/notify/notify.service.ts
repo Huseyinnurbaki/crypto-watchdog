@@ -18,8 +18,6 @@ export class NotifyService implements OnModuleInit {
     this.messageFactory = new MessageFactory();
   }
 
-  // TODO: Remove duplicates
-
   async publish(data: [NotifyModel]) {
     const newerVersion = await this.checkLatestGithubVersion();
     newerVersion && data.unshift(newerVersion);
