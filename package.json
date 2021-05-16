@@ -36,7 +36,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@hhaluk/node-html-parser": "^3.3.2-tspatch",
@@ -64,6 +65,7 @@
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^6.0.0",
     "jest": "26.4.2",
     "prettier": "1.19.1",
     "supertest": "^4.0.2",
