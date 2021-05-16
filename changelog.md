@@ -5,18 +5,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [0.3.3] - 2021-05-15
-### Fix
+### Fixed
 - New token min holder qty filter.
 
 ## [0.3.2] - 2021-05-15
-### Add
+### Added
 - Build Automation.
 
 ## [0.3.1] - 2021-05-13
 ### Fix
 - New token notification misconfiguration error handling.
 
-## [0.3.0] - 2021-05-1
+## [0.3.0] - 2021-05-10
 ### Added
 - Feature: New added tokens to the BSC & ETH Networks optionally collected & distributed to the following channels. [Google Chat, Slack & Custom webhooks.]
 ## [0.2.1] - 2021-05-10
@@ -56,6 +56,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Query & Filter coins via coinmarketcap apis.
 - Notify Google Chat room
 
+[0.3.3]: https://github.com/Huseyinnurbaki/crypto-watchdog/releases/tag/0.3.3
+[0.3.2]: https://github.com/Huseyinnurbaki/crypto-watchdog/releases/tag/0.3.2
+[0.3.1]: https://github.com/Huseyinnurbaki/crypto-watchdog/releases/tag/0.3.1
+[0.3.0]: https://github.com/Huseyinnurbaki/crypto-watchdog/releases/tag/0.3.0
+[0.2.1]: https://github.com/Huseyinnurbaki/crypto-watchdog/releases/tag/0.2.1
 [0.2.0]: https://github.com/Huseyinnurbaki/crypto-watchdog/releases/tag/0.2.0
 [0.1.1]: https://github.com/Huseyinnurbaki/crypto-watchdog/releases/tag/0.1.1
 [0.1.0]: https://github.com/Huseyinnurbaki/crypto-watchdog/releases/tag/0.1.0
