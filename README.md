@@ -17,7 +17,7 @@ Finds new listed coins every hour and Queries coins/tokens every 45 minutes & re
 
 > Quickstart without cloning the repoistory.
 
-- Add your [environment variables](#environment-variables-:globe_with_meridians:) to the following command. 
+- Add your [environment variables](#environment-variables) to the following command. 
 
 ### Docker (Alternative 1)
 
