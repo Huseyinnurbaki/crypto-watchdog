@@ -13,8 +13,38 @@ Finds new listed coins every hour and Queries coins/tokens every 45 minutes & re
 - www.coinmarketcap.com (optional)
 - www.bitquery.io (optional)
 
+# Quickstart 🚀
 
-# Environment Variables :globe_with_meridians:	
+> Quickstart without cloning the repoistory.
+
+- Add your [environment variables](#environment-variables) to the following command. 
+
+### Docker (Alternative 1)
+
+```console
+$ docker run -d \
+    --env CMC_PRO_API_KEY=<YOUR_KEY> \
+    --env GOOGLE_CHAT_ROOM_HOOK=<YOUR_HOOK> \
+    --env SLACK_CHANNEL_HOOK=<YOUR_HOOK> \
+    --env HOURLY_PERCENTAGE=12 \
+    --env TELEGRAM_CHANNEL_HOOK=<YOUR_HOOK> \
+    hhaluk/crypto-watchdog
+```
+
+> Tip: include parse_mode=markdown at the end of your dynamic Telegram Url.
+> https://api.telegram.org/botXXXXXXX:XXXXXXXXXXXXXXXX/sendMessage?chat_id=XXXXXXXXXXXX&parse_mode=markdown
+
+All set. :white_check_mark:	
+
+### Kubernetes (Alternative 2)
+- Copy [standard-deployment.yaml](https://github.com/Huseyinnurbaki/crypto-watchdog/blob/master/k8s/standard-deployment.yaml) on your machine & place your environment variables if required.
+(otherwise remove unused name/value pairs)
+
+```console
+$ kubectl apply -f standard-deployment.yaml
+```
+
+## Environment Variables
 
 |  Name | Mandatory  | Requires | Description |
 |---|---|---|---|
@@ -36,26 +66,7 @@ Finds new listed coins every hour and Queries coins/tokens every 45 minutes & re
 - Provide at least one HOOK to get notified.
 - Features activated by passed environment varibles. You can have all features together or individually.
 - Checkout [Integration Document](https://github.com/Huseyinnurbaki/crypto-watchdog/wiki/Custom-Hook-Integration) for custom hook integration.
-# Quickstart 🚀
 
-> Quickstart without cloning the repoistory.
-
-- Add your environment variables to the following command.
-
-### Docker (Alternative 1)
-```console
-$ docker run -d --env CMC_PRO_API_KEY=<YOUR_KEY> --env GOOGLE_CHAT_ROOM_HOOK=<YOUR_HOOK> --env SLACK_CHANNEL_HOOK=<YOUR_HOOK> --env HOURLY_PERCENTAGE=12 hhaluk/crypto-watchdog
-```
-
-All set. :white_check_mark:	
-
-### Kubernetes (Alternative 2)
-- Copy [standard-deployment.yaml](https://github.com/Huseyinnurbaki/crypto-watchdog/blob/master/k8s/standard-deployment.yaml) on your machine & place your environment variables if required.
-(otherwise remove unused name/value pairs)
-
-```console
-$ kubectl apply -f standard-deployment.yaml
-```
 
 All set. :white_check_mark:	
 # Upcoming :construction:	
