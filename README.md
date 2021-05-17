@@ -83,9 +83,11 @@ All set. :white_check_mark:
 $ npm i
 $ npm run start:debug
 ```
+
 # References
 
 - [Changelog](https://github.com/Huseyinnurbaki/crypto-watchdog/blob/master/changelog.md)
+- [Known Issues](https://github.com/Huseyinnurbaki/crypto-watchdog/projects/1#column-14351402)
 
 # Licence
 
