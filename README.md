@@ -2,7 +2,7 @@
 
 ---
 [![BUILD](https://github.com/Huseyinnurbaki/crypto-watchdog/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/Huseyinnurbaki/crypto-watchdog/actions/workflows/main.yml)
-![Docker Image Version (latest semver)](https://img.shields.io/docker/v/hhaluk/crypto-watchdog?color=blue&label=image&logo=docker)
+![Docker Image Version (latest by date)](https://img.shields.io/docker/v/hhaluk/crypto-watchdog?color=blue&logo=docker)
 ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/Huseyinnurbaki/crypto-watchdog?include_prereleases&logo=github)
 ![Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/hhaluk/crypto-watchdog?color=B4D4A55&logo=docker)
 ![Docker Pulls](https://img.shields.io/docker/pulls/hhaluk/crypto-watchdog?color=gray&logo=docker)
