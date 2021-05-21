@@ -9,6 +9,7 @@
 # Crypto Watchdog is open-source containerized crypto market observer service.
 Finds new listed coins every hour and Queries coins/tokens every 45 minutes & returns the ones increased or decreased more than %10 in an hour & notifies google chat room & Slack Channel & Telegram or your services. 
 
+### Providers
 - www.coingecko.com (default)
 - www.coinmarketcap.com (optional)
 - www.bitquery.io (optional)
