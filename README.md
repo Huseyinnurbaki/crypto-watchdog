@@ -1,4 +1,4 @@
-![bg](./bg.png "bg")
+![bg](./crypto-watchdog.webp "bg")
 
 ---
 [![BUILD](https://github.com/Huseyinnurbaki/crypto-watchdog/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/Huseyinnurbaki/crypto-watchdog/actions/workflows/main.yml)
