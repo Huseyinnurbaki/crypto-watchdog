@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: crypto-watchdog
-        image: hhaluk/crypto-watchdog
+        image: hhaluk/crypto-watchdog:0.4.1
         env:
         - name: CMC_PRO_API_KEY
           value: "YOUR_API_KEY"
