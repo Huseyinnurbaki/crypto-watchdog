@@ -9,10 +9,11 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+
+env:
+  IMAGE_NAME: hhaluk/crypto-watchdog
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -32,16 +33,15 @@ jobs:
         run: npm run prebuild
       - name: Lint Check
         run: npm run lintcheck
-      - name: Declare some variables
-        id: vars
-        shell: bash
-        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - name: Build image
-        run: docker build . --file Dockerfile --tag hhaluk/crypto-watchdog:${{ steps.vars.outputs.sha_short }}
+        run: docker build . --file Dockerfile --tag $IMAGE_NAME
       - name: Login to Docker Hub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Push DockerHub
-        run: docker image push hhaluk/crypto-watchdog:${{ steps.vars.outputs.sha_short }}
+        run: |
+          SHORT_SHA=$(git rev-parse --short "$GITHUB_SHA")
+          docker tag $IMAGE_NAME:latest $IMAGE_NAME:$SHORT_SHA
+          docker image push --all-tags hhaluk/crypto-watchdog
