@@ -20,6 +20,9 @@ Finds new listed coins every hour and Queries coins/tokens every 45 minutes & re
 
 - Add your [environment variables](#environment-variables) to the following command. 
 
+> Image tag "latest" is not a stable tag.
+> Always run the image with a specific semantic version tag. See Releases section to find version tags.
+
 ### Docker (Alternative 1)
 
 ```console
@@ -29,7 +32,7 @@ $ docker run -d \
     --env SLACK_CHANNEL_HOOK=<YOUR_HOOK> \
     --env HOURLY_PERCENTAGE=12 \
     --env TELEGRAM_CHANNEL_HOOK=<YOUR_HOOK> \
-    hhaluk/crypto-watchdog
+    hhaluk/crypto-watchdog:0.4.1
 ```
 
 > Tip: include parse_mode=markdown at the end of your dynamic Telegram Url.
