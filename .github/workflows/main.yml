@@ -45,4 +45,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Push DockerHub
-        run: docker image push $IMAGE_NAME:$git_hash
+        run: docker image push $IMAGE_NAME:$GIT_HASH
