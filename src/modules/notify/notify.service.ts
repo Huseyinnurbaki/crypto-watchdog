@@ -7,6 +7,7 @@ import { ChannelProviders } from 'src/utils/providers';
 import { isOutdated } from './notify.helper';
 import { AppConfigs } from 'src/utils/constants';
 import { paginate } from 'src/utils/js-utils';
+import * as Pigeon from '@hhaluk/pigeon';
 
 @Injectable()
 export class NotifyService implements OnModuleInit {
@@ -31,7 +32,7 @@ export class NotifyService implements OnModuleInit {
   }
 
   async invokeChannels(page: [NotifyModel]) {
-    await this.notifyGoogleChatRoom(page);
+    this.notifyGoogleChatRoom(page);
     await this.notifySlackChannel(page);
     await this.notifyCustomChannel(page);
     await this.notifyTelegramChannel(page);
@@ -42,10 +43,10 @@ export class NotifyService implements OnModuleInit {
     return isOutdated(publishedVersions);
   }
 
-  async notifyGoogleChatRoom(data) {
+  notifyGoogleChatRoom(data) {
     if (!AppConfigs.GOOGLE_CHAT_ROOM_HOOK) return;
     const message = this.messageFactory.CreateMessage(ChannelProviders.GoogleChat, data);
-    await this.requestService.post(AppConfigs.GOOGLE_CHAT_ROOM_HOOK, message);
+    Pigeon.NotifyGoogleChat(AppConfigs.GOOGLE_CHAT_ROOM_HOOK, message);
   }
   async notifySlackChannel(data) {
     if (!AppConfigs.SLACK_CHANNEL_HOOK) return;
