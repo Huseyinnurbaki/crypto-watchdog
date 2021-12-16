@@ -67,9 +67,9 @@ spec:
         env:
         - name: CMC_PRO_API_KEY
           value: "YOUR_API_KEY"
-        - name: GOOGLE_CHAT_ROOM_HOOK
+        - name: GOOGLE_CHAT_API_URL
           value: "YOUR_CHAT_ROOM_URL"
-        - name: SLACK_CHANNEL_HOOK
+        - name: SLACK_API_URL
           value: "YOUR_CHAT_ROOM_URL"
         - name: HOURLY_PERCENTAGE
           value: "12"

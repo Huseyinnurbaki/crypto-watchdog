@@ -27,15 +27,15 @@ export class NotifyService implements OnModuleInit {
     const numberOfPages = Math.floor(data.length / this.itemsPerPage) + 1;
     for (let i = 1; i <= numberOfPages; i++) {
       const page = paginate(data, this.itemsPerPage, i);
-      await this.invokeChannels(page);
+      this.invokeChannels(page);
     }
   }
 
-  async invokeChannels(page: [NotifyModel]) {
+  invokeChannels(page: [NotifyModel]) {
     this.notifyGoogleChatRoom(page);
-    await this.notifySlackChannel(page);
-    await this.notifyCustomChannel(page);
-    await this.notifyTelegramChannel(page);
+    this.notifySlackChannel(page);
+    this.notifyTelegramChannel(page);
+    this.notifyCustomChannel(page);
   }
 
   async checkLatestGithubVersion(): Promise<NotifyModel> {
@@ -44,23 +44,20 @@ export class NotifyService implements OnModuleInit {
   }
 
   notifyGoogleChatRoom(data) {
-    if (!AppConfigs.GOOGLE_CHAT_ROOM_HOOK) return;
     const message = this.messageFactory.CreateMessage(ChannelProviders.GoogleChat, data);
-    Pigeon.NotifyGoogleChat(AppConfigs.GOOGLE_CHAT_ROOM_HOOK, message);
+    Pigeon.NotifyGoogleChat(message);
   }
-  async notifySlackChannel(data) {
-    if (!AppConfigs.SLACK_CHANNEL_HOOK) return;
+  notifySlackChannel(data) {
     const message = this.messageFactory.CreateMessage(ChannelProviders.Slack, data);
-    await this.requestService.post(AppConfigs.SLACK_CHANNEL_HOOK, message);
+    Pigeon.NotifySlackChannel(message);
   }
-  async notifyCustomChannel(data) {
-    if (!AppConfigs.CUSTOM_CHANNEL_HOOK) return;
-    const message = this.messageFactory.CreateMessage(ChannelProviders.Custom, data);
-    await this.requestService.post(AppConfigs.CUSTOM_CHANNEL_HOOK, message);
-  }
-  async notifyTelegramChannel(data) {
-    if (!AppConfigs.TELEGRAM_CHANNEL_HOOK) return;
+  notifyTelegramChannel(data) {
     const message = this.messageFactory.CreateMessage(ChannelProviders.Telegram, data);
-    await this.requestService.post(AppConfigs.TELEGRAM_CHANNEL_HOOK, message);
+    Pigeon.NotifyTelegramChannel(message);
   }
+  notifyCustomChannel(data) {
+    const message = this.messageFactory.CreateMessage(ChannelProviders.Custom, data);
+    Pigeon.NotifyTelegramChannel(AppConfigs.CUSTOM_CHANNEL_HOOK, message);
+  }
+
 }

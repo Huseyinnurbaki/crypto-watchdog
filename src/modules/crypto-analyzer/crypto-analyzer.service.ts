@@ -34,7 +34,7 @@ export class CryptoAnalyzerService {
     const geckoPotentials = await this.getCoinGeckoCryptos();
     const cmcPotentials = await this.getCMCCryptos();
     const mergedCoinList = geckoPotentials.concat(cmcPotentials);
-    this.notifyService.publish(mergedCoinList);
+    // this.notifyService.publish(mergedCoinList);
 
     return mergedCoinList;
   }

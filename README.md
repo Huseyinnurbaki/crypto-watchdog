@@ -28,10 +28,10 @@ Finds new listed coins every hour and Queries coins/tokens every 45 minutes & re
 ```console
 $ docker run -d \
     --env CMC_PRO_API_KEY=<YOUR_KEY> \
-    --env GOOGLE_CHAT_ROOM_HOOK=<YOUR_HOOK> \
-    --env SLACK_CHANNEL_HOOK=<YOUR_HOOK> \
+    --env GOOGLE_CHAT_API_URL=<YOUR_HOOK> \
+    --env SLACK_API_URL=<YOUR_HOOK> \
     --env HOURLY_PERCENTAGE=12 \
-    --env TELEGRAM_CHANNEL_HOOK=<YOUR_HOOK> \
+    --env TELEGRAM_API_URL=<YOUR_HOOK> \
     hhaluk/crypto-watchdog:0.4.1
 ```
 
@@ -54,9 +54,9 @@ $ kubectl apply -f standard-deployment.yaml
 |---|---|---|---|
 | CMC_PRO_API_KEY  | False | - | Enables coinmarketcap queries.   |
 | BITQUERY_API_KEY  | False | - | Enables bitquery queries. Returns new listed coins.   |
-| GOOGLE_CHAT_ROOM_HOOK  | True | - | Notifies Google chat room. Enables Google chat notifications.    |
-| SLACK_CHANNEL_HOOK  | False | - |  Notifies Slack channel. Enables Slack Channel notifications.  |
-| TELEGRAM_CHANNEL_HOOK  | False | - |  Notifies Telegram channel. Enables Telegram Channel notifications.  |
+| GOOGLE_CHAT_API_URL  | True | - | Notifies Google chat room. Enables Google chat notifications.    |
+| SLACK_API_URL  | False | - |  Notifies Slack channel. Enables Slack Channel notifications.  |
+| TELEGRAM_API_URL  | False | - |  Notifies Telegram channel. Enables Telegram Channel notifications.  |
 | CUSTOM_CHANNEL_HOOK  | False | - |  Feeds provided rest endpoint. Enables Custom notifications.  |
 | HOURLY_PERCENTAGE  | False | - | Used to filter price increase percentage in an hour, default is 10%.  |
 | DAILY_PERCENTAGE  | False | - | Used to filter price increase percentage in a day, inactive if not defined.  |
