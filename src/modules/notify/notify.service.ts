@@ -59,5 +59,4 @@ export class NotifyService implements OnModuleInit {
     const message = this.messageFactory.CreateMessage(ChannelProviders.Custom, data);
     Pigeon.NotifyTelegramChannel(AppConfigs.CUSTOM_CHANNEL_HOOK, message);
   }
-
 }
